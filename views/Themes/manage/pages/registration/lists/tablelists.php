@@ -50,7 +50,9 @@ if( !empty($this->results['lists']) ){
 
             '<td class="status">'.$upload.'</td>'.
 
-            '<td class="status"></td>'.
+            '<td class="status">
+                <label class="checkbox"><input data-plugins="_update" data-options="'.$this->fn->stringify(array('url' => URL. 'registration/setData/'.$item['uid'].'/checkin')).'" type="checkbox" name="checkin" '.(!empty($item['checkin']) ? 'checked="1"' : '').'></label>
+            </td>'.
 
             '<td class="status"></td>'.
 

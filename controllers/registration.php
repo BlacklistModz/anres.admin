@@ -109,4 +109,14 @@ class Registration extends Controller {
             $this->view->render('del');
         }
     }
+
+    public function setData($id=null, $field=null){
+        if( empty($id) || empty($field) || empty($this->me) ) $this->error();
+
+        $data[$field] = isset($_REQUEST['value'])? $_REQUEST['value']:'';
+        $this->model->update($id, $data);
+
+        $arr['message'] = '1';
+        echo json_encode($arr);
+    }
 }

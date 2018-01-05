@@ -35,7 +35,7 @@ if( $this->fn->check_user_agent('mobile') ){
     // echo '<link rel="mask-icon" href="'.IMAGES.'favicon.svg">';
 
 }
-echo '<link rel="shortcut icon" href="'.IMAGES.'favicon.png">';
+echo '<link rel="shortcut icon" href="'.$this->getPage('image-128').'">';
 $_content = $this->getPage('color');
 if( !empty($color) ){
     echo '<meta name="theme-color" content="'.$_content.'">';
