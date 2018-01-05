@@ -95,7 +95,7 @@ class Registration_Model extends Model{
 	#attend
     public function attend($id=null){
         if( !empty($id) ){
-            $sth = $this->db->prepare("SELECT attend_id AS id, attend_name AS name FROM registration_attend WHERE attend_id=:id LIMIT 1");
+            $sth = $this->db->prepare("SELECT attend_id AS id, attend_name AS name, attend_keyword AS keyword, attend_is_student AS is_student, attend_is_international AS is_international, attend_is_mou AS is_mou FROM registration_attend WHERE attend_id=:id LIMIT 1");
             $sth->execute( array(':id'=>$id) );
 
             $fdata = $sth->fetch( PDO::FETCH_ASSOC );
@@ -107,7 +107,7 @@ class Registration_Model extends Model{
             : array();
         }
         else{
-            return $this->db->query("SELECT attend_id AS id, attend_name AS name FROM registration_attend ORDER BY attend_id ASC");
+            return $this->db->query("SELECT attend_id AS id, attend_name AS name, attend_keyword AS keyword, attend_is_student AS is_student, attend_is_international AS is_international, attend_is_mou AS is_mou FROM registration_attend ORDER BY attend_id ASC");
         }
     }
     public function insertAttend(&$data){

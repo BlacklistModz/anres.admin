@@ -51,9 +51,14 @@ class Registration extends Controller {
 
         try{
             $form = new Form();
-            $form   ->post('attend_name')->val('is_empty');
+            $form   ->post('attend_name')->val('is_empty')
+                    ->post('attend_keyword')->val('is_empty');
             $form->submit();
             $postData = $form->fetch();
+
+            $postData['attend_is_student'] = !empty($_POST["is_student"]) ? 1 : 0;
+            $postData['attend_is_international'] = !empty($_POST["is_international"]) ? 1 : 0;
+            $postData['attend_is_mou'] = !empty($_POST["is_mou"]) ? 1 : 0;
 
             $has_name = true;
             if( !empty($item) ){

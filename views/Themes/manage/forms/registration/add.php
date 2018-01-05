@@ -15,8 +15,30 @@ $form 	->field("attend_name")
         ->placeholder('')
         ->value( !empty($this->item['name'])? $this->item['name']:'' );
 
+$form 	->field("attend_keyword")
+	    	->label($this->lang->translate('Keyword').'*')
+        ->autocomplete('off')
+        ->addClass('inputtext')
+        ->placeholder('')
+        ->value( !empty($this->item['keyword'])? $this->item['keyword']:'' );
+
+$ch = !empty($this->item['is_student']) ? ' checked="1"' : "";
+$ch_box = '<label class="checkbox"><input'.$ch.' type="checkbox" name="is_student"> This is Student</label>';
+$form 	->field("is_student")
+				->text( $ch_box );
+
+$ch = !empty($this->item['is_international']) ? ' checked="1"' : "";
+$ch_box = '<label class="checkbox"><input'.$ch.' type="checkbox" name="is_international"> This is International</label>';
+$form 	->field("is_international")
+				->text( $ch_box );
+
+$ch = !empty($this->item['is_mou']) ? ' checked="1"' : "";
+$ch_box = '<label class="checkbox"><input'.$ch.' type="checkbox" name="is_mou"> This is Asean/MOU</label>';
+$form 	->field("is_mou")
+				->text( $ch_box );
+
 # set form
-$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'registration/save_attend"></form>';
+$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'registration/save"></form>';
 
 # body
 $arr['body'] = $form->html();
