@@ -30,7 +30,7 @@ class Registration_Model extends Model{
             'pager' => isset($_REQUEST['pager'])? $_REQUEST['pager']:1,
             'limit' => isset($_REQUEST['limit'])? $_REQUEST['limit']:50,
 
-            'sort' => isset($_REQUEST['sort'])? $_REQUEST['sort']: 'created_at',
+            'sort' => isset($_REQUEST['sort'])? $_REQUEST['sort']: 'created',
             'dir' => isset($_REQUEST['dir'])? $_REQUEST['dir']: 'DESC',
 
             'time'=> isset($_REQUEST['time'])? $_REQUEST['time']:time(),
@@ -50,7 +50,7 @@ class Registration_Model extends Model{
         $orderby = $this->orderby( $options['sort'], $options['dir'] );
         $limit = $this->limited( $options['limit'], $options['pager'] );
 
-        $arr['lists'] = $this->buildFrag( $this->db->select("SELECT {$this->_field} FROM {$this->_table} {$where_str} {$orderby} {$limit}", $where_arr ), $options  );
+        $arr['lists'] = $this->buildFrag( $this->db->query("SELECT {$this->_field} FROM {$this->_table} {$where_str} {$orderby} {$limit}", $where_arr ), $options  );
 
         if( ($options['pager']*$options['limit']) >= $arr['total'] ) $options['more'] = false;
         $arr['options'] = $options;
