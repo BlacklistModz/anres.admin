@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Registration_Model extends Model{
 
 	public function __construct() {
@@ -54,7 +54,7 @@ class Registration_Model extends Model{
 
         if( ($options['pager']*$options['limit']) >= $arr['total'] ) $options['more'] = false;
         $arr['options'] = $options;
-        
+
         return $arr;
     }
     public function buildFrag($results, $options=array()) {
@@ -80,5 +80,35 @@ class Registration_Model extends Model{
         $data['permit']['del'] = true;
         $data['fullname'] = $data['firstname'].' '.$data['lastname'];
     	return $data;
+    }
+
+		#attend
+    public function attend(){
+        return $this->db->query("SELECT attend_id AS id, attend_name AS name FROM registration_attend ORDER BY id ASC");
+    }
+    public function getAttend($id){
+
+        $sth = $this->db->prepare("SELECT attend_id AS id, attend_name AS name FROM registration_attend WHERE attend_id=:id LIMIT 1");
+        $sth->execute( array(':id'=>$id) );
+
+        $fdata = $sth->fetch( PDO::FETCH_ASSOC );
+
+        $fdata['permit']['del'] = true;
+
+        return $sth->rowCount()==1
+            ? $fdata
+            : array();
+    }
+    public function insertAttend(&$data){
+        $this->db->insert("registration_attend", $data);
+    }
+    public function updateAttend($id, $data){
+        $this->db->update("registration_attend", $data, "attend_id={$id}");
+    }
+    public function deleteAttend($id){
+        $this->db->delete("registration_attend", "attend_id={$id}");
+    }
+    public function is_attend($text){
+        return $this->db->count("registration_attend", "attend_name=:text", array(":text"=>$text));
     }
 }

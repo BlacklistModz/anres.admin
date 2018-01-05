@@ -66,8 +66,8 @@ class Settings extends Controller {
 
         $this->view->setPage('on', 'settings' );
         $this->view->setData('section', 'registration');
-        $this->view->setData('tap', 'display');
-        $this->view->setData('_tap', $tap);
+        $this->view->setData('tap', $tap);
+        // $this->view->setData('_tap', $tap);
 
         if( $tap=='attend' ){
           $data = $this->model->load('registration')->attend();
