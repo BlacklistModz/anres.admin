@@ -44,6 +44,15 @@ class Registration_Model extends Model{
         $where_str = "";
         $where_arr = array();
 
+        if( isset($_REQUEST["country"]) ){
+            $options["country"] = $_REQUEST["country"];
+        }
+        if( !empty($options["country"]) ){
+            $where_str .= !empty($where_str) ? " AND " : "";
+            $where_str .= "region=:country";
+            $where_arr[":country"] = $options["country"];
+        }
+
         $arr['total'] = $this->db->count($this->_table, $where_str, $where_arr);
 
         $where_str = !empty($where_str) ? "WHERE {$where_str}":'';
@@ -79,25 +88,27 @@ class Registration_Model extends Model{
     public function convert($data , $options=array()){
         $data['permit']['del'] = true;
         $data['fullname'] = $data['firstname'].' '.$data['lastname'];
+        $data['payment_status_arr'] = $this->getPaymentStatus($data['payment_status']);
     	return $data;
     }
 
-		#attend
-    public function attend(){
-        return $this->db->query("SELECT attend_id AS id, attend_name AS name FROM registration_attend ORDER BY id ASC");
-    }
-    public function getAttend($id){
+	#attend
+    public function attend($id=null){
+        if( !empty($id) ){
+            $sth = $this->db->prepare("SELECT attend_id AS id, attend_name AS name FROM registration_attend WHERE attend_id=:id LIMIT 1");
+            $sth->execute( array(':id'=>$id) );
 
-        $sth = $this->db->prepare("SELECT attend_id AS id, attend_name AS name FROM registration_attend WHERE attend_id=:id LIMIT 1");
-        $sth->execute( array(':id'=>$id) );
+            $fdata = $sth->fetch( PDO::FETCH_ASSOC );
 
-        $fdata = $sth->fetch( PDO::FETCH_ASSOC );
+            $fdata['permit']['del'] = true;
 
-        $fdata['permit']['del'] = true;
-
-        return $sth->rowCount()==1
+            return $sth->rowCount()==1
             ? $fdata
             : array();
+        }
+        else{
+            return $this->db->query("SELECT attend_id AS id, attend_name AS name FROM registration_attend ORDER BY attend_id ASC");
+        }
     }
     public function insertAttend(&$data){
         $this->db->insert("registration_attend", $data);
@@ -110,5 +121,24 @@ class Registration_Model extends Model{
     }
     public function is_attend($text){
         return $this->db->count("registration_attend", "attend_name=:text", array(":text"=>$text));
+    }
+
+    /*Payment Status*/
+    public function paymentStatus(){
+        $a[] = array('id'=>'Waiting', 'name'=>'Waiting', 'color'=>'yellow', 'color_text'=>'#fff');
+        $a[] = array('id'=>'Rejected', 'name'=>'Rejected', 'color'=>'red',  'color_text'=>'#fff');
+        $a[] = array('id'=>'Completed', 'name'=>'Completed', 'color'=>'green',  'color_text'=>'#fff');
+
+        return $a;
+    }
+    public function getPaymentStatus($id){
+        $data = array();
+        foreach ($this->paymentStatus() as $key => $value) {
+            if( $id == $value['id'] ){
+                $data = $value;
+                break;
+            }
+        }
+        return $data;
     }
 }

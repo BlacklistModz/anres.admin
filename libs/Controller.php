@@ -261,7 +261,7 @@ class Controller {
                     // if( $this->pathName=='teacher' ) $role = 3;
                     // if( $this->pathName=='corporation' ) $role = 4;
 
-                    $id = $this->model->load('users')->login($post['email'], $post['pass'], $role);
+                    $id = $this->model->load('users')->login($post['email'], $post['pass']);
 
                     if( !empty($id) ){
 

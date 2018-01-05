@@ -30,12 +30,8 @@ if( !empty($info) ){
 
 
 #Coop & Stu
-$cool[] = array('key'=>'registration','text'=>$this->lang->translate('menu','Registration'),'link'=>$this->pageURL.'registration','icon'=>'graduation-cap');
+$cool[] = array('key'=>'registration','text'=>$this->lang->translate('menu','Registration'),'link'=>$this->pageURL.'registration','icon'=>'user');
 echo $this->fn->manage_nav($cool, $this->getPage('on'));
-
-#News
-$news[] = array('key'=>'news', 'text'=>'ข่าวสาร', 'link'=>$this->pageURL.'news', 'icon'=>'newspaper-o');
-echo $this->fn->manage_nav($news, $this->getPage('on'));
 
 #Customer
 // $cus[] = array('key'=>'customers','text'=>$this->lang->translate('menu','Customers'),'link'=>$this->pageURL.'customers','icon'=>'address-card-o');
@@ -89,10 +85,10 @@ echo '<ul class="navigation-list">'.
 
 	'<li class="clearfix">'.
 		'<div class="navigation-main-footer-cogs">'.
-			'<a data-plugins="dialog" href="'.URL.'logout/admin?next='.URL.'cms"><i class="icon-power-off"></i><span class="visuallyhidden">Log Out</span></a>'.
+			'<a data-plugins="dialog" href="'.URL.'logout/admin?next='.URL.'"><i class="icon-power-off"></i><span class="visuallyhidden">Log Out</span></a>'.
 			// '<a href="'.URL.'logout/admin"><i class="icon-cog"></i><span class="visuallyhidden">Settings</span></a>'.
 		'</div>'.
-		'<div class="navigation-brand-logo clearfix"><img class="lfloat mrm" src="'.IMAGES.'logo/logo1.gif">'.( !empty( $this->system['title'] ) ? $this->system['title']:'' ).'</div>'.
+		'<div class="navigation-brand-logo clearfix"><img class="lfloat mrm" src="'.$this->getPage('image-128').'">'.( !empty( $this->system['title'] ) ? $this->system['title']:'' ).'</div>'.
 	'</li>'.
 '</ul>';
 

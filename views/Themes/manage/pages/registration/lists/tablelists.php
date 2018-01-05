@@ -12,6 +12,17 @@ if( !empty($this->results['lists']) ){
         $cls = $i%2 ? 'even' : "odd";
         // set Name
 
+        $upload = '<i class="icon-remove"></i>';
+        if( !empty($item['path_paper']) ){
+            $upload = '<i class="icon-check"></i>';
+        }
+        elseif( !empty($item['path_paper_2']) ){
+            $upload = '<i class="icon-check"></i>';
+        }
+        elseif( !empty($item['path_paper_3']) ){
+            $upload = '<i class="icon-check"></i>';
+        }
+
         $tr .= '<tr class="'.$cls.'" data-id="'.$item['uid'].'">'.
 
             // '<td class="check-box"><label class="checkbox"><input id="toggle_checkbox" type="checkbox" value="'.$item['id'].'"></label></td>'.
@@ -33,11 +44,11 @@ if( !empty($this->results['lists']) ){
 
             '</td>'.
 
-            '<td class="email"></td>'.
+            '<td class="email">'.$item['region'].'</td>'.
 
-            '<td class="status"></td>'.
+            '<td class="status">'.$item['payment_status_arr']['name'].'</td>'.
 
-            '<td class="status"></td>'.
+            '<td class="status">'.$upload.'</td>'.
 
             '<td class="status"></td>'.
 

@@ -19,7 +19,7 @@
 
 		<!-- <div class="listpage2-table-overlay"></div> -->
 		<div class="listpage2-table-empty">
-	        <div class="empty-icon"><i class="icon-graduation-cap"></i></div>
+	        <div class="empty-icon"><i class="icon-user"></i></div>
 	        <div class="empty-title">Not found !</div>
 		</div>
 		
