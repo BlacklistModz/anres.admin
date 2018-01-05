@@ -42,7 +42,7 @@ if( !empty($sub) ){
 
 // foreach ($sub as $key => $value) {
 // 	if( empty($this->permit[$value['key']]['view']) ) unset($sub[$key]);
-// } 
+// }
 // if( !empty($sub) ){
 // 	$this->count_nav+=count($sub);
 // 	$menu[] = array('text'=> $this->lang->translate('Supports'),'sub' => $sub, 'url' => $this->pageURL.'settings/sponsor');
