@@ -3100,13 +3100,13 @@ table.table-plan td{vertical-align: top;}
 .timeline .item .disc{padding:5px}
 
 
-body, input, textarea, select, button{font-size: 20px}
+/* body, input, textarea, select, button{font-size: 20px}
 .fsm{font-size: 18px}
 @media (max-width:1600px) {
 	body, input, textarea, select, button{font-size: 18px}
 	.fsm{font-size: 16px}
 }
-
+ */
 
 .table-standard-reports th, .table-standard-reports td{
 	border-color: #000;

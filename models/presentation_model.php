@@ -8,35 +8,38 @@ class presentation_Model extends Model{
     public function types($id=null){
         if( !empty($id) ){
             $sth = $this->db->prepare("SELECT type_id AS id, type_name AS name, type_is_presentation
-              AS presentation FROM presentation_types WHERE type_id=:id LIMIT 1");
+              AS presentation, type_keyword AS keyword FROM presentation_types WHERE type_id=:id LIMIT 1");
         $sth->execute( array(
             ':id' => $id
         ) );
 
+        $fdata = $sth->fetch( PDO::FETCH_ASSOC );
+        $fdata['permit']['del'] = true;
+
         return $sth->rowCount()==1
-            ? $sth->fetch( PDO::FETCH_ASSOC )
+            ? $fdata
             : array();
         }
         else{
             return $this->db->query("SELECT type_id AS id, type_name AS name, type_is_presentation
-              AS presentation FROM presentation_types");
+              AS presentation, type_keyword AS keyword FROM presentation_types");
         }
     }
 
-    public function inserttypes($data){
+    public function insertType($data){
       $this->db->insert("presentation_types", $data);
     }
 
-    public function updatetypes($data,$id){
+    public function updateType($id, $data){
       $this->db->update("presentation_types", $data, "type_id={$id}");
     }
 
-    public function deletetypes($id){
+    public function deleteType($id){
       $this->db->delete("presentation_types", "type_id={$id}");
     }
 
     public function is_presentation($text){
-      $this->db->count("presentation_types", "type_name=:text", array(":text"=>$text));
+      return $this->db->count("presentation_types", "type_name=:text", array(":text"=>$text));
     }
   }
   ?>

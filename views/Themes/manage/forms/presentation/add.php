@@ -8,33 +8,27 @@ $form = $form->create()
 	->elem('div')
 	->addClass('form-insert');
 
-$form 	->field("types_name")
+$form 	->field("type_name")
     	->label($this->lang->translate('Name').'*')
         ->autocomplete('off')
         ->addClass('inputtext')
         ->placeholder('')
         ->value( !empty($this->item['name'])? $this->item['name']:'' );
-$form 	->field("types_name")
-			->label($this->lang->translate('Name').'*')
-				->autocomplete('off')
-				->addClass('inputtext')
-				->placeholder('')
-				->value( !empty($this->item['name'])? $this->item['name']:'' );
-$form 	->field("types_name")
-			->label($this->lang->translate('Name').'*')
-				->autocomplete('off')
-				->addClass('inputtext')
-				->placeholder('')
-				->value( !empty($this->item['name'])? $this->item['name']:'' );
-$form 	->field("types_name")
-			->label($this->lang->translate('Name').'*')
-				->autocomplete('off')
-				->addClass('inputtext')
-				->placeholder('')
-				->value( !empty($this->item['name'])? $this->item['name']:'' );
+
+$form 	->field("type_keyword")
+    	->label($this->lang->translate('Keyword').'*')
+        ->autocomplete('off')
+        ->addClass('inputtext')
+        ->placeholder('')
+        ->value( !empty($this->item['name'])? $this->item['name']:'' );
+
+$ch = !empty($this->item['presentation']) ? ' checked="1"' : '';
+$checkbox = '<label class="checkbox"><input'.$ch.' type="checkbox" name="type_is_presentation"> Presentation</label>';
+$form 	->field("presentation")
+		->text( $checkbox );
 
 # set form
-$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'presentation/save_types"></form>';
+$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'presentation/save_type"></form>';
 
 # body
 $arr['body'] = $form->html();

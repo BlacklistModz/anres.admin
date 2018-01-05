@@ -3,7 +3,7 @@
 $arr['title'] = $this->lang->translate('Confirm').' '.$this->lang->translate('Delete');
 // if ( !empty($item['permit']['del']) ) {
 
-	$arr['form'] = '<form class="js-submit-form" action="'.URL. 'presentation/del_types"></form>';
+	$arr['form'] = '<form class="js-submit-form" action="'.URL. 'presentation/del_type"></form>';
 	$arr['hiddenInput'][] = array('name'=>'id','value'=>$this->item['id']);
 	$arr['body'] = "{$this->lang->translate('You want to delete')} <span class=\"fwb\">\"{$this->item['name']}\"</span> {$this->lang->translate('or not')}?";
 

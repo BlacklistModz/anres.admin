@@ -8,8 +8,12 @@ class Registration extends Controller {
 
     public function index($id=null){
     	$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
-    	if( !empty($id) ){
 
+        $this->view->setPage('on', 'registration');
+        $this->view->setPage('title', 'Registration');
+
+    	if( !empty($id) ){
+            $this->error();
     	}
     	else{
     		if( $this->format=='json' ){
@@ -17,19 +21,55 @@ class Registration extends Controller {
     			$render = "registration/lists/json";
     		}
     		else{
+                $this->view->setData('country', $this->model->country());
+                $this->view->setData('paymentStatus', $this->model->paymentStatus());
     			$render = "registration/lists/display";
     		}
     	}
     	$this->view->render($render);
     }
-
     public function add(){
+        if( empty($this->me) ) $this->error();
+
+        $this->view->setPage('on','registration');
+        $this->view->setPage('title', 'Create Registration');
+
+        $this->view->setData('titleName', $this->model->titleName());
+        $this->view->setData('country', $this->model->country());
+        $this->view->setData('attend', $this->model->attend());
+        $this->view->setData('types', $this->model->load('presentation')->types());
+        $this->view->setData('submission', $this->model->submission());
+        $this->view->setData('payment', $this->model->billPayment());
+        $this->view->render('registration/forms/create');
+    }
+    public function edit($id=null){
+        $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+        if( empty($this->me) ) $this->error();
+
+        $this->view->setPage('on','registration');
+        $this->view->setPage('title', 'Edit Registration');
+
+        $item = $this->model->get($id);
+        if( empty($item) ) $this->error();
+
+        $this->view->setData('item', $item);
+        $this->view->setData('titleName', $this->model->titleName());
+        $this->view->setData('country', $this->model->country());
+        $this->view->setData('attend', $this->model->attend());
+        $this->view->setData('types', $this->model->load('presentation')->types());
+        $this->view->setData('submission', $this->model->submission());
+        $this->view->setData('payment', $this->model->billPayment());
+        $this->view->render('registration/forms/create');
+    }
+
+    /*ATTEND*/
+    public function add_attend(){
       if( empty($this->me) || $this->format!='json' ) $this->error();
 
         $this->view->setPage('path','Themes/manage/forms/registration');
         $this->view->render('add');
     }
-    public function edit($id=null){
+    public function edit_attend($id=null){
       $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
         if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
 
@@ -40,7 +80,7 @@ class Registration extends Controller {
         $this->view->setPage('path','Themes/manage/forms/registration');
         $this->view->render('add');
     }
-    public function save(){
+    public function save_attend(){
       if( empty($_POST) ) $this->error();
 
         $id = isset($_POST["id"]) ? $_POST["id"] : null;
@@ -85,7 +125,7 @@ class Registration extends Controller {
         }
         echo json_encode($arr);
     }
-    public function del($id=null){
+    public function del_attend($id=null){
         $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
         if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
 

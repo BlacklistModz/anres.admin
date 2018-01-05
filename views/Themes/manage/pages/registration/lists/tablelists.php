@@ -35,7 +35,7 @@ if( !empty($this->results['lists']) ){
 
                     '<div class="content"><div class="spacer"></div><div class="massages">'.
 
-                        '<div class="fullname"><a class="fwb" href="'.URL .'persentation/'.$item['uid'].'">'.$item['fullname'].'</a></div>'.
+                        '<div class="fullname"><a class="fwb" href="'.URL .'registration/'.$item['uid'].'">'.$item['fullname'].'</a></div>'.
 
                         '<div class="subname fsm fcg meta"></div>'.
 
@@ -54,9 +54,16 @@ if( !empty($this->results['lists']) ){
                 <label class="checkbox"><input data-plugins="_update" data-options="'.$this->fn->stringify(array('url' => URL. 'registration/setData/'.$item['uid'].'/checkin')).'" type="checkbox" name="checkin" '.(!empty($item['checkin']) ? 'checked="1"' : '').'></label>
             </td>'.
 
-            '<td class="status"></td>'.
+            // '<td class="status"></td>'.
 
-            '<td class="actions"></td>'.
+            '<td class="actions">'.
+                '<span class="gbtn">
+                    <a href="'.URL.'registration/edit/'.$item['uid'].'" class="btn btn-orange btn-no-padding"><i class="icon-pencil"></i></a>
+                </span>'.
+                '<span class="gbtn">
+                    <a href="'.URL.'registration/del/'.$item['uid'].'" class="btn btn-red btn-no-padding"><i class="icon-trash"></i></a>
+                </span>'.
+            '</td>'.
 
         '</tr>';
         

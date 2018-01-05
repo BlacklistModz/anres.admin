@@ -7,7 +7,7 @@ class Registration_Model extends Model{
 
     private $_objName = "registration";
     private $_table = "registration reg LEFT JOIN users u ON reg.uid=u.reg_id";
-    private $_field = "reg.*, u.username, u.email, u.id AS user_id";
+    private $_field = "reg.*, u.username, u.email AS user_email, u.id AS user_id";
 
     public function insert(&$data){
     	$data["created"] = date("c");
@@ -51,6 +51,15 @@ class Registration_Model extends Model{
             $where_str .= !empty($where_str) ? " AND " : "";
             $where_str .= "region=:country";
             $where_arr[":country"] = $options["country"];
+        }
+
+        if( isset($_REQUEST["payment_status"]) ){
+            $options["payment_status"] = $_REQUEST["payment_status"];
+        }
+        if( !empty($options["payment_status"]) ){
+            $where_str .= !empty($where_str) ? " AND " : "";
+            $where_str .= "payment_status=:payment_status";
+            $where_arr[":payment_status"] = $options["payment_status"];
         }
 
         $arr['total'] = $this->db->count($this->_table, $where_str, $where_arr);
@@ -140,5 +149,35 @@ class Registration_Model extends Model{
             }
         }
         return $data;
+    }
+
+    public function billPayment(){
+        $a[] = array('id'=>1, 'name'=>'Counter Service / Bill Payment');
+        $a[] = array('id'=>2, 'name'=>'Credit Card');
+        $a[] = array('id'=>3, 'name'=>'Cash');
+
+        return $a;
+    }
+
+    public function titleName(){
+        $a[] = array('id'=>'Prof', 'name'=>'Prof');
+        $a[] = array('id'=>'Doctor', 'name'=>'Doctor');
+        $a[] = array('id'=>'Mr.', 'name'=>'Mr.');
+        $a[] = array('id'=>'Mrs.', 'name'=>'Mrs.');
+        $a[] = array('id'=>'Miss', 'name'=>'Miss');
+
+        return $a;
+    }
+
+    public function country(){
+        return $this->db->query("SELECT id, country_name AS name FROM apps_countries ORDER BY country_name ASC");
+    }
+
+    public function submission(){
+        $a[] = array('id'=>'Abstract', 'name'=>'Abstract');
+        $a[] = array('id'=>'Proceeding', 'name'=>'Proceeding');
+        $a[] = array('id'=>'Full article', 'name'=>'Full article');
+
+        return $a;
     }
 }
