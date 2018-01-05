@@ -1,0 +1,201 @@
+/*          
+          .o88
+          "888
+ .oooo.    888  .oo.    ..o88.     ooo. .oo.    .oooo`88
+d88' `8b   88bP"Y88b   888P"Y88b  "888P"Y88b   888' `88b 
+888        88b   888   888   888   888   888   888   888
+888. .88   888   888   888   888   888   888   888. .880
+ 8`bo8P'  o888o o888o   8`bod8P'  o888o o888o   .oooo88o
+                                                     088`
+                                                    .o88
+*/
+@font-face {
+    font-family: 'HelveticaNeueLTStd-Lt';
+    src: url("../fonts/337483_0_0.eot");
+    src: url("../fonts/337483_0_0.eot?#iefix") format("embedded-opentype"), url("../fonts/337483_0_0.woff2") format("woff2"), url("../fonts/337483_0_0.woff") format("woff"), url("../fonts/337483_0_0.ttf") format("truetype")
+}
+@font-face {
+    font-family: 'HelveticaNeueLTStd-Th';
+    src: url("../fonts/33547D_1_0.eot");
+    src: url("../fonts/33547D_1_0.eot?#iefix") format("embedded-opentype"), url("../fonts/33547D_1_0.woff2") format("woff2"), url("../fonts/33547D_1_0.woff") format("woff"), url("../fonts/33547D_1_0.ttf") format("truetype")
+}
+@font-face {
+    font-family: 'HelveticaNeueLTStd-Roman';
+    src: url("../fonts/33547D_0_0.eot");
+    src: url("../fonts/33547D_0_0.eot?#iefix") format("embedded-opentype"), url("../fonts/33547D_0_0.woff2") format("woff2"), url("../fonts/33547D_0_0.woff") format("woff"), url("../fonts/33547D_0_0.ttf") format("truetype")
+}
+@font-face {
+    font-family: 'HelveticaNeueLTStd-Md';
+    src: url("../fonts/33547D_2_0.eot");
+    src: url("../fonts/33547D_2_0.eot?#iefix") format("embedded-opentype"), url("../fonts/33547D_2_0.woff2") format("woff2"), url("../fonts/33547D_2_0.woff") format("woff"), url("../fonts/33547D_2_0.ttf") format("truetype")
+}
+@font-face {
+    font-family: 'HelveticaNeueLTStd-Bd';
+    src: url("../fonts/337483_1_0.eot");
+    src: url("../fonts/337483_1_0.eot?#iefix") format("embedded-opentype"), url("../fonts/337483_1_0.woff2") format("woff2"), url("../fonts/337483_1_0.woff") format("woff"), url("../fonts/337483_1_0.ttf") format("truetype")
+}
+
+
+body{
+    background-color: #fff;
+    overflow-y:scroll;
+    
+}
+body, input, textarea, select, button, .editor-text,h1,h2,h3 {
+    font-family: "HelveticaNeueLTStd-Th", "HelveticaNeue-Thin", "HelveticaNeue", Helvetica, Arial, sans-serif;
+    font-size: 16px}
+h1,h2,h3{font-weight:bold}
+h1{font-size: 200%}
+h2{font-size: 150%}
+h3{font-size: 120%}
+input[type="checkbox"]:disabled+label{color:#c6c6c6}
+input[type=checkbox], input[type=radio]{position:relative;border:1px solid;display:inline-block;margin-top:2px;margin-bottom:0;padding:0;vertical-align:text-bottom}
+input[type=checkbox]:active{appearance:none;border:none \0;border:none\9}
+input[type=radio]{border-radius:8px;-webkit-border-radius:8px;-moz-border-radius:8px;-ms-border-radius:8px}
+input[type=radio]:hover, input[type=radio]:focus{background-color:#777}
+input[type=radio]:active{background-color:#333}
+input[type=checkbox], input[type=radio]{box-sizing:border-box;position:relative;padding:0;background-color:transparent;border:none;outline:0;box-sizing:border-box;-webkit-appearance:none;-webkit-user-select:none;height:18px;width:18px;cursor:pointer;border-radius:2px}
+input[type=checkbox]:before, input[type=radio]:before, input[type=checkbox]:after, input[type=radio]:after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;box-sizing:border-box;border-radius:2px}
+input[type=radio]:after{top:4px;left:4px;right:4px;bottom:4px}
+input[type=checkbox]:before, input[type=radio]:before{border:2px solid #b2b2b2;background-color:#fff}
+input[type=checkbox]:hover:before, input[type=radio]:hover:before{box-shadow:0 1px 2px rgba(0,0,0,.1)}
+input[type=checkbox]:after{content:'\2713';text-align:center;color:#fff;opacity:0;background-color:transparent;background-position:center center;background-repeat:no-repeat;background-size:9px}
+input[type=radio], input[type=radio]:before, input[type=radio]:after{border-radius:50%}
+label.checkbox input[type="checkbox"]:checked::before, label.radio input[type=radio]:checked::before{border-color:#2196f3}
+label.checkbox input[type="checkbox"]:checked::after, label.radio input[type=radio]:checked::after{opacity:1;background-color:#2196f3;box-shadow:0 1px 2px rgba(0,0,0,.2);line-height:18px}
+label.checkbox{display:inline-block}
+label.radio{line-height:20px}
+label.radio:hover{cursor:pointer}
+label.radio input[type=radio]{float:left;margin-right:5px}
+input[type=checkbox]:disabled, input[type=radio]:disabled{opacity:.5;cursor:default}
+
+/* https://image.online-convert.com/convert-to-svg */
+/* https://console.cloud.google.com/freetrial?_ga=2.8583797.-1975400659.1504088644&page=0 */
+
+html,body{
+	height: 100%
+}
+body{
+    /*background-color: #1c716a;*/
+    /*background-color: #f2f2f2;*/
+	/*background-image: url('http://localhost/anres_conference/views/Themes/login/assets/images/bg-top-left.svg');*/
+    /*background-repeat: no-repeat;
+    background-position: top left;*/
+}
+#main-nav-wrapper{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 300;
+    
+    -webkit-transition: background-color 0.5s ease;
+    transition: background-color 0.5s ease;
+    
+    background-color: rgba(255,255,255,0.9);
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+}
+
+#main-nav-wrapper:after {
+    content: '';
+    position: absolute;
+    height: 1px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(51,51,51,0.1);
+}
+.main-nav .logo-wrapper {
+    width: 203px;
+}
+.main-nav .logo-wrapper, .main-nav .main-menu{
+    display: inline-block;
+    vertical-align: top;
+}
+.main-nav .main-menu a {
+    text-decoration: none;
+    color: #0081ff;
+    display: inline-block;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+#landing-header{
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    /*padding: 7rem 2.5rem 0;*/
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-flow: column;
+    -ms-flex-flow: column;
+    flex-flow: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    height: 100vh;
+    
+    color: #fff;
+
+    background-image: url(https://messenger.fb.com/wp-content/uploads/2017/04/landing-header-bg.jpg);
+    visibility: inherit;
+    opacity: 1;
+}
+#landing-header h1 {
+    font-size: 3.4rem;
+    font-weight: normal;
+}
+#landing-header h2{
+    font-weight: normal;
+}
+
+
+.theme-gray {
+    background: #f2f2f2;
+}
+
+
+.main .large-text-center {
+    text-align: center;
+}
+.section-content {
+    position: relative;
+    z-index: 1;
+    margin-left: auto;
+    margin-right: auto;
+    width: 980px;
+}
+
+.section-hero {
+    overflow-x: hidden;
+    padding-top: 52px;
+}
+.section-hero .hero-headline-wrapper {
+    padding-bottom: 0;
+}
+.section-hero.section-spacing-bottom {
+    padding-bottom: 70px;
+}
+.section-hero .product-spacing {
+    margin-top: 65px;
+}
+.section-hero .headline-spacing {
+    margin: 13px auto 0;
+}
+
+
+[data-engaged-animation] {
+    opacity: 0;
+}
