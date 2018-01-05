@@ -30,8 +30,7 @@ if( !empty($info) ){
 
 
 #Coop & Stu
-$cool[] = array('key'=>'corporation','text'=>$this->lang->translate('menu','Corporation'),'link'=>$this->pageURL.'corporation','icon'=>'sitemap');
-$cool[] = array('key'=>'student','text'=>$this->lang->translate('menu','Student'),'link'=>$this->pageURL.'student','icon'=>'graduation-cap');
+$cool[] = array('key'=>'registration','text'=>$this->lang->translate('menu','Registration'),'link'=>$this->pageURL.'registration','icon'=>'graduation-cap');
 echo $this->fn->manage_nav($cool, $this->getPage('on'));
 
 #News
