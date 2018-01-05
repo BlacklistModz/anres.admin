@@ -1,6 +1,6 @@
 <?php
 
-$url = URL .'registration/';
+$url = URL .'presentation/';
 
 
 ?><div class="pal"><div class="setting-header cleafix">

@@ -1,66 +1,107 @@
 <?php
 
-class presentation extends Controller {
+class prsentation extends Controller {
 
     public function __construct() {
         parent::__construct();
     }
-    public function index(){
-  		$this->error();
-  	}
 
-  	#Users
-  	public function add(){
+    public function index($id=null){
+    	$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+    	if( !empty($id) ){
 
-  		if( empty($this->me) || $this->format!="json" ) $this->error();
-  		$this->view->setPage("path", "registration/types");
-  		$this->view->render("add");
-  	}
-  	public function edit($id=null){
+    	}
+    	else{
+    		if( $this->format=='json' ){
+    			$this->view->setData('results', $this->model->lists());
+    			$render = "presentation/lists/json";
+    		}
+    		else{
+    			$render = "presentation/lists/display";
+    		}
+    	}
+    	$this->view->render($render);
+    }
 
-  		$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
-  		if( empty($id) || empty($this->me) || $this->format!="json" ) $this->error();
+    public function add(){
+      if( empty($this->me) || $this->format!='json' ) $this->error();
 
-  		$item = $this->model->get($id);
-  		if( empty($item) ) $this->error();
+        $this->view->setPage('path','Themes/manage/forms/presentation');
+        $this->view->render('add');
+    }
+    public function edit($id=null){
+      $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+        if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
 
-  		$this->view->setData("item", $item);
-  		$this->view->setPage("path", "registration/types");
-  		$this->view->render("add");
-  	}
+        $item = $this->model->attend($id);
+        if( empty($item) ) $this->error();
 
+        $this->view->setData('item', $item);
+        $this->view->setPage('path','Themes/manage/forms/presentation');
+        $this->view->render('add');
+    }
+    public function save(){
+      if( empty($_POST) ) $this->error();
 
-  	public function del($id=null){
-  		$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
-  		if( empty($this->me) || empty($id) || $this->format!="json" ) $this->error();
+        $id = isset($_POST["id"]) ? $_POST["id"] : null;
+        if( !empty($id) ){
+            $item = $this->model->attend($id);
+            if( empty($item) ) $this->error();
+        }
 
-  		$item = $this->model->get($id);
-  		if( empty($item) ) $this->error();
+        try{
+            $form = new Form();
+            $form   ->post('types_name')->val('is_empty');
+            $form->submit();
+            $postData = $form->fetch();
 
-  		if( !empty($_POST) ){
-  			if( !empty($item["permit"]["del"]) ){
+            $has_name = true;
+            if( !empty($item) ){
+                if( $item['name'] == $postData['types_name'] ) $has_name = false;
+            }
+            if( $this->model->is_attend($postData['types_name']) && $has_name ){
+                $arr['error']['types_name'] = 'This name have already !';
+            }
 
-                  if( !empty($item['image_id']) ) $this->model->load('media')->del($item['image_id']);
+            if( empty($arr['error']) ){
+                if(!empty($id)){
+                    $this->model->updateAttend($id, $postData);
+                }
+                else{
+                    $this->model->insertAttend($postData);
+                }
 
-                  if( $item['role_id'] == 2 ) $this->model->load('student')->delByUser( $id );
-                  if( $item['role_id'] == 4 ) $this->model->load('corporation')->delByUser( $id );
+                $arr['message'] = 'Saved !';
+                $arr['url'] = 'refresh';
+            }
 
-  				$this->model->delete( $id );
-  				$arr["message"] = "ลบข้อมูลเรียบร้อย";
-  				$arr["url"] = "refresh";
-  			}
-  			else{
-  				$arr["message"] = "ไม่สามารถลบข้อมูลได้";
-  			}
+        } catch (Exception $e) {
+            $arr['error'] = $this->_getError($e->getMessage());
+        }
+        echo json_encode($arr);
+    }
+    public function del($id=null){
+        $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+        if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
 
-  			echo json_encode($arr);
-  		}
-  		else{
-  			$this->view->setData("item", $item);
-  			$this->view->setPage("path", "registration/types");
-  			$this->view->render("del");
-  		}
-  	}
+        $item = $this->model->attend($id);
+        if( empty($item) ) $this->error();
 
-
+        if( !empty($_POST) ){
+            if( !empty($item['permit']['del']) ){
+                $this->model->deleteAttend($id);
+                $arr['message'] = 'Deleted !';
+                $arr['url'] = 'refresh';
+            }
+            else{
+                $arr['message'] = 'Error : This can not delete by SYSTEM';
+            }
+            echo json_encode($arr);
+        }
+        else{
+            $this->view->setData('item', $item);
+            $this->view->setPage('path', 'Themes/manage/forms/registration');
+            $this->view->render('del');
+        }
+    }
 }
