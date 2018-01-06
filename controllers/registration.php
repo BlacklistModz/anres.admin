@@ -65,7 +65,7 @@ class Registration extends Controller {
         if( empty($_POST) ) $this->error();
 
         $id = isset($_POST["id"]) ? $_POST["id"] : null;
-        if( !empty($item) ){
+        if( !empty($id) ){
             $item = $this->model->get($id);
             if( empty($item) ) $this->error();
         }
@@ -82,12 +82,12 @@ class Registration extends Controller {
                     ->post('province')->val('is_empty')
                     ->post('postal')->val('is_empty')
                     ->post('region')->val('is_empty')
-                    ->post('email')->val('is_empty')
-                    ->post('attend_type')->val('is_empty')
-                    ->post('presentation_type')->val('is_empty');
+                    ->post('email')->val('is_empty');
             $form->submit();
             $postData = $form->fetch();
 
+            $postData['attend_type'] = isset($_POST['attend_type']) ? $_POST['attend_type'] : null;
+            $postData['presentation_type'] = isset($_POST['presentation_type']) ? $_POST['presentation_type'] : null;
             $postData['attend_type'] = str_replace("-", " ", $postData["attend_type"]);
             $postData['presentation_type'] = str_replace("-", " ", $postData['presentation_type']);
 
@@ -148,14 +148,14 @@ class Registration extends Controller {
                         if( !empty($item['path_std']) ){
                             @unlink(WWW_UPLOADS."file/".$item['path_std']);
                         }
-                        $type = strrchr($_FILES["stu_card"],".");
+                        $type = strrchr($_FILES["stu_card"]['name'],".");
                         $name_std = 'stu_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
                         move_uploaded_file($_FILES["stu_card"]["tmp_name"], WWW_UPLOADS."file/".$name_std);
 
                         $data['path_std'] = $name_std;
                     }
                     if( !empty($_FILES["mou_doc"]) ){
-                        if( !empty($item['path_mou']) ){
+                        if( !empty($item['path_mou']['name']) ){
                             @unlink(WWW_UPLOADS."file/".$item['path_mou']);
                         }
                         $type = strrchr($_FILES["mou_doc"],".");
