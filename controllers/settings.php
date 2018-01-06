@@ -90,98 +90,20 @@ class Settings extends Controller {
         $this->view->setData('section', 'accounts');
         $this->view->setData('tap', $tap);
         // $this->view->setData('_tap', $tap);
+        $render = "settings/display";
 
         if( $tap=='admin' ){
-          $data = $this->model->load('users')->accounts();
+            $data = array();
+            if( $this->format=='json' ){
+                $this->view->setData('results', $this->model->load('users')->lists());
+                $render = "settings/sections/accounts/admin/json";
+            }
         }
         else{
           $this->error();
         }
 
         $this->view->setData('data', $data);
-        $this->view->render("settings/display");
+        $this->view->render($render);
     }
-
-    public function add_accounts(){
-      if( empty($this->me) || $this->format!='json' ) $this->error();
-
-        $this->view->setPage('path','Themes/manage/forms/accounts');
-        $this->view->render('add');
-    }
-    public function edit_accounts($id=null){
-      $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
-        if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
-
-        $item = $this->model->load('users')->accounts($id);
-        if( empty($item) ) $this->error();
-
-        $this->view->setData('item', $item);
-        $this->view->setPage('path','Themes/manage/forms/accounts');
-        $this->view->render('add');
-    }
-    public function save_accounts(){
-      if( empty($_POST) ) $this->error();
-
-        $id = isset($_POST["id"]) ? $_POST["id"] : null;
-        if( !empty($id) ){
-            $item = $this->model->attend($id);
-            if( empty($item) ) $this->error();
-        }
-
-        try{
-            $form = new Form();
-            $form   ->post('firstname')->val('is_empty')
-                    ->post('lastname')->val('is_empty')
-                    ->post('email')->val('is_empty')
-                    ->post('username')->val('is_empty');
-            $form->submit();
-            $postData = $form->fetch();
-
-            $has_name = true;
-            if( !empty($item) ){
-                if( $item['username'] == $postData['username'] ) $has_name = false;
-            }
-
-            if( empty($arr['error']) ){
-                if(!empty($id)){
-                    $this->model->updateAccounts($id, $postData);
-                }
-                else{
-                    $this->model->insertAccounts($postData);
-                }
-
-                $arr['message'] = 'Saved !';
-                $arr['url'] = 'refresh';
-            }
-
-        } catch (Exception $e) {
-            $arr['error'] = $this->_getError($e->getMessage());
-        }
-        echo json_encode($arr);
-    }
-    public function del_accounts($id=null){
-        $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
-        if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
-
-        $item = $this->model->accounts($id);
-        if( empty($item) ) $this->error();
-
-        if( !empty($_POST) ){
-            if( !empty($item['permit']['del']) ){
-                $this->model->deleteAccounts($id);
-                $arr['message'] = 'Deleted !';
-                $arr['url'] = 'refresh';
-            }
-            else{
-                $arr['message'] = 'Error : This can not delete by SYSTEM';
-            }
-            echo json_encode($arr);
-        }
-        else{
-            $this->view->setData('item', $item);
-            $this->view->setPage('path', 'Themes/manage/forms/accounts');
-            $this->view->render('del');
-        }
-    }
-
 }

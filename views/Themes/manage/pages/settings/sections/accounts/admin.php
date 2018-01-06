@@ -1,18 +1,18 @@
 <?php
 
-$url = URL.'settings/';
+$url = URL.'users/';
 
-?><div data-load="<?=URL?>manage/settings/accounts/admin" class="SettingCol offline">
+?><div data-load="<?=URL?>settings/accounts/admin" class="SettingCol offline">
 
 <div class="SettingCol-header"><div class="SettingCol-contentInner">
 	<div class="clearfix">
 		<ul class="clearfix lfloat SettingCol-headerActions">
 
-			<li><h2><i class="icon-users mrs"></i><span><?=$this->lang->translate('Administrator')?></span></h2></li>
+			<li><h2><i class="icon-users mrs"></i><span>ผู้ใช้งาน</span></h2></li>
 			<li><a class="btn js-refresh"><i class="icon-refresh"></i></a></li>
 			<li class="divider"></li>
 
-			<li><a class="btn btn-blue" data-plugins="dialog" href="<?=$url?>add_accounts"><i class="icon-plus mrs"></i><span><?=$this->lang->translate('Add New')?></span></a></li>
+			<li><a class="btn btn-blue" data-plugins="dialog" href="<?=$url?>add"><i class="icon-plus mrs"></i><span><?=$this->lang->translate('Add New')?></span></a></li>
 
 		</ul>
 		<ul class="rfloat SettingCol-headerActions clearfix">
@@ -24,52 +24,14 @@ $url = URL.'settings/';
 
 	<div class="mtm clearfix">
 		<ul class="lfloat SettingCol-headerActions clearfix">
-			<li><label>Department:</label> <select ref="selector" name="department" class="inputtext">
-				<option value="">All</option>
-			<?php foreach ($this->department as $key => $value) {
-
-				$s = '';
-				if( isset($_GET['department']) ){
-
-					if( $_GET['department']==$value['id'] ){
-						$s = ' selected="1"';
-					}
-				}
-			 ?>
-				<option<?=$s?> value="<?=$value['id']?>"><?=$value['name']?></option>
-			<?php } ?>
-			</select></li>
-
-			<li><label>Position:</label> <select ref="selector" name="position" class="inputtext">
-				<option value="">All</option>
-			<?php foreach ($this->position as $key => $value) {
-
-
-				$s = '';
-				if( isset($_GET['position']) ){
-
-					if( $_GET['position']==$value['id'] ){
-						$s = ' selected="1"';
-					}
-				}
-				//
-			 ?>
-				<option<?=$s?> value="<?=$value['id']?>"><?=$value['name']?></option>
-			<?php } ?>
-			</select></li>
-			<li><label>Display:</label> <select ref="selector" name="display" class="inputtext">
-			<?php foreach ($this->display as $key => $value) {
-				$s = '';
-				if( isset($_GET['display']) ){
-
-					if( $_GET['display']==$value['id'] ){
-						$s = ' selected="1"';
-					}
-				}
-			 ?>
-				<option<?=$s?> value="<?=$value['id']?>"><?=$value['name']?></option>
-			<?php } ?>
-			</select></li>
+			<li>
+				<label for="permission">Type:</label>
+				<select ref="selector" name="permission" class="inputtext">
+					<option value="">-</option>
+					<option value="admin">Admin</option>
+					<option value="user">User</option>
+				</select>
+			</li>
 
 		</ul>
 		<ul class="rfloat SettingCol-headerActions clearfix">
@@ -92,7 +54,7 @@ $url = URL.'settings/';
 	<div class="SettingCol-tableHeader"><div class="SettingCol-contentInner">
 		<table class="settings-table admin"><thead><tr>
 			<th class="name" data-col="0">Full Name</th>
-			<th class="email" data-col="1"></th>
+			<th class="status" data-col="1">Status</th>
 			<th class="actions" data-col="2">Action</th>
 		</tr></thead></table>
 	</div></div>

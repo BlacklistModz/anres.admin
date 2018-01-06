@@ -11,7 +11,111 @@ class Users extends Controller {
 	}
 
 	#Users
-	public function add(){
+    public function add(){
+        if( empty($this->me) || $this->format!='json' ) $this->error();
+
+        $this->view->setPage('path', 'Themes/manage/forms/accounts');
+        $this->view->render("add");
+    }
+    public function edit($id=null){
+        $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+        if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
+
+        $item = $this->model->get($id);
+        if( empty($item) ) $this->error();
+
+        $this->view->setData('item', $item);
+        $this->view->setPage('path', 'Themes/manage/forms/accounts');
+        $this->view->render("add");
+    }
+    public function save(){
+        if( empty($_POST) ) $this->error();
+
+        $id = isset($_POST["id"]) ? $_POST["id"] : null;
+        if( !empty($id) ){
+            $item = $this->model->get($id);
+            if( empty($item) ) $this->error();
+        }
+
+        try{
+            $form = new Form();
+            $form   ->post('username')->val('is_empty')
+                    ->post('firstname')->val('is_empty')
+                    ->post('lastname')
+                    ->post('email')->val('email');
+            $form->submit();
+            $postData = $form->fetch();
+
+            if( empty($item) ){
+                if( strlen($_POST["password"]) < 4 ){
+                    $arr['error']['password'] = 'กรุณากรอกรหัสผ่าน 4 ตัวอักษรขึ้นไป';
+                }
+                else{
+                    $postData['password'] = $this->fn->q('password')->PasswordHash($_POST["password"]);
+                }
+            }
+
+            $has_user = true;
+            $has_email = true;
+            if( !empty($item) ){
+                if( $item['username'] == $postData['username'] ){
+                    $has_user = false;
+                }
+                if( $item['email'] == $postData['email'] ){
+                    $has_email = false;
+                }
+            }
+            if( $this->model->is_user($postData['username']) && $has_user ){
+                $arr['error']['username'] = 'พบ Username นี้ซ้ำในระบบ';
+            }
+            if( $this->model->is_email($postData['email']) && $has_email ){
+                $arr['error']['email'] = 'พบ Email นี้ซ้ำในระบบ';
+            }
+
+            if( empty($arr['error']) ){
+                if( !empty($id) ){
+                    $this->model->update($id, $postData);
+                }
+                else{
+                    $postData['permission'] = 'admin';
+                    $this->model->insert($postData);
+                }
+
+                $arr['message'] = 'Saved !';
+                $arr['url'] = 'refresh';
+            }
+
+        } catch (Exception $e) {
+            $arr['error'] = $this->_getError($e->getMessage());
+        }
+        echo json_encode($arr);
+    }
+    public function del($id=null){
+        $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+        if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
+
+        $item = $this->model->get($id);
+        if( empty($item) ) $this->error();
+
+        if( !empty($_POST) ){
+            if( !empty($item['permit']['del']) ){
+                $this->model->delete($id);
+                $arr['message'] = 'ลบข้อมูลเรียบร้อย';
+                $arr['url'] = 'refresh';
+            }
+            else{
+                $arr['message'] = 'ไม่สามารถลบข้อมูลได้';
+            }
+            echo json_encode($arr);
+        }
+        else{
+            $this->view->setData('item', $item);
+            $this->view->setPage('path', 'Themes/manage/forms/accounts');
+            $this->view->render('del');
+        }
+    }
+
+	/*public function add(){
 
 		if( empty($this->me) || $this->format!="json" ) $this->error();
 
@@ -215,7 +319,7 @@ class Users extends Controller {
 			$this->view->setPage("path", "Forms/users");
 			$this->view->render("change_display");
 		}
-	}
+	}*/
 
 	#Roles
 	public function add_roles(){

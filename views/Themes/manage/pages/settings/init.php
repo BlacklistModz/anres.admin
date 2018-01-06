@@ -18,7 +18,7 @@ if( !empty($sub) ){
 
 // admin
 $sub = array();
-$sub[] = array('text'=> $this->lang->translate('Administrator'),'key'=>'admin','url'=>$this->pageURL.'settings/accounts/admin');
+$sub[] = array('text'=> 'ผู้ใช้งาน','key'=>'admin','url'=>$this->pageURL.'settings/accounts/admin');
 
 if( !empty($sub) ){
 	$this->count_nav+=count($sub);

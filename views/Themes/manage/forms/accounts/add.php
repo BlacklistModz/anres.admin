@@ -8,6 +8,22 @@ $form = $form->create()
 	->elem('div')
 	->addClass('form-insert');
 
+	$form 	->field("username")
+	    		->label($this->lang->translate('Username').'*')
+        	->autocomplete('off')
+        	->addClass('inputtext')
+        	->placeholder('')
+        	->value( !empty($this->item['username'])? $this->item['username']:'' );
+if( empty($this->item) ){
+	$form 	->field("password")
+	    		->label($this->lang->translate('Password').'*')
+        	->autocomplete('off')
+        	->addClass('inputtext')
+        	->placeholder('')
+        	->type('password')
+        	->value( !empty($this->item['password'])? $this->item['password']:'' );
+ }
+
 	$form 	->field("firstname")
 					->label($this->lang->translate('Firstname').'*')
 					->autocomplete('off')
@@ -22,20 +38,6 @@ $form = $form->create()
 					->placeholder('')
 					->value( !empty($this->item['lastname'])? $this->item['lastname']:'' );
 
-	$form 	->field("username")
-	    		->label($this->lang->translate('Username').'*')
-        	->autocomplete('off')
-        	->addClass('inputtext')
-        	->placeholder('')
-        	->value( !empty($this->item['username'])? $this->item['username']:'' );
-  // 
-	// $form 	->field("password")
-	//     		->label($this->lang->translate('Password').'*')
-  //       	->autocomplete('off')
-  //       	->addClass('inputtext')
-  //       	->placeholder('')
-  //       	->value( !empty($this->item['password'])? $this->item['password']:'' );
-
 	$form 	->field("email")
 					->label($this->lang->translate('E-mail').'*')
 					->autocomplete('off')
@@ -44,7 +46,7 @@ $form = $form->create()
 					->value( !empty($this->item['email'])? $this->item['email']:'' );
 
 # set form
-$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'settings/save_accounts"></form>';
+$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'users/save"></form>';
 
 # body
 $arr['body'] = $form->html();
