@@ -41,7 +41,7 @@ class presentation_Model extends Model{
     public function is_presentation($text){
       return $this->db->count("presentation_types", "type_name=:text", array(":text"=>$text));
     }
-    public function getSubmission($keyword){
+    public function getPresentation($keyword){
       $sth = $this->db->prepare("SELECT type_id AS id, type_name AS name, type_is_presentation
         AS presentation, type_keyword AS keyword FROM presentation_types WHERE type_keyword=:keyword LIMIT 1");
       $sth->execute( array(

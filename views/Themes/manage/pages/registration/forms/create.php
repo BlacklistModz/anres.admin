@@ -184,7 +184,7 @@ $options = $this->fn->stringify( array(
 				<h3 class="mbl"><i class="icon-paper-plane-o"></i> Registration form</h3>
 			</div>
 			<div class="uiBoxWhite pam" style="width: 750px;">
-				<form class="js-submit-form" action="<?=URL?>save" data-plugins="formRegistation" data-options="<?=$options?>">
+				<form class="js-submit-form" action="<?=URL?>registration/save" data-plugins="formRegistation" data-options="<?=$options?>" enctype="multipart/form-data">
 					<?=$form->html()?>
 					<div class="clearfix mtl">
 						<div class="lfloat">
@@ -194,6 +194,11 @@ $options = $this->fn->stringify( array(
 							<button type="submit" class="btn-submit btn btn-blue">SAVE</button>
 						</div>
 					</div>
+					<?php 
+					if( !empty($this->item) ){
+						echo '<input type="hidden" name="id" value="'.$this->item['uid'].'">';
+					}
+					?>
 				</form>
 			</div>
 		</div>

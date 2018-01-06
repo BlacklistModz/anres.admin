@@ -13,6 +13,7 @@ class Registration_Model extends Model{
     	$data["created"] = date("c");
     	$data["updated"] = date("c");
     	$this->db->insert($this->_objName, $data);
+        $data['id'] = $this->db->lastInsertId();
     }
     public function update($id, $data){
     	$data["updated"] = date("c");

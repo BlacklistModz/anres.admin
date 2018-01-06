@@ -61,6 +61,121 @@ class Registration extends Controller {
         $this->view->setData('payment', $this->model->billPayment());
         $this->view->render('registration/forms/create');
     }
+    public function save(){
+        if( empty($_POST) ) $this->error();
+
+        $id = isset($_POST["id"]) ? $_POST["id"] : null;
+        if( !empty($item) ){
+            $item = $this->model->get($id);
+            if( empty($item) ) $this->error();
+        }
+
+        try{
+            $form = new Form();
+            $form   ->post('title')
+                    ->post('firstname')->val('is_empty')
+                    ->post('lastname')->val('is_empty')
+                    ->post('gender')->val('is_empty')
+                    ->post('affiliation')
+                    ->post('address')->val('is_empty')
+                    ->post('district')
+                    ->post('province')->val('is_empty')
+                    ->post('postal')->val('is_empty')
+                    ->post('region')->val('is_empty')
+                    ->post('email')->val('is_empty')
+                    ->post('attend_type')->val('is_empty')
+                    ->post('presentation_type')->val('is_empty');
+            $form->submit();
+            $postData = $form->fetch();
+
+            $postData['attend_type'] = str_replace("-", " ", $postData["attend_type"]);
+            $postData['presentation_type'] = str_replace("-", " ", $postData['presentation_type']);
+
+            $attend = $this->model->getAttend($postData['attend_type']);
+            $presentation = $this->model->load('presentation')->getPresentation($postData['presentation_type']);
+
+            if( !empty($attend['is_student']) && empty($item['path_std']) ){
+                if( empty($_FILES["stu_card"]) ){
+                    $arr['error']['stu_card'] = 'กรุณาเลือกไฟล์สำหรับอัพโหลด Student Card';
+                }
+                else{
+                    /* CHECK SIZE 2MB */
+                    if( $_FILES['stu_card']['size'] > 2100000 ){
+                        $arr['error']['stu_card'] = 'ขนาดไฟล์ต้องไม่เกิน 2MB (เมกะไบต์)';
+                    }
+                }
+            }
+
+            if( !empty($attend['is_mou']) && empty($item['path_mou']) ){
+                if( empty($_FILES["mou_doc"]) ){
+                    $arr['error']['mou_doc'] = 'กรุณาเลือกไฟล์สำหรับอัพโหลด MOU Document';
+                }
+                else{
+                    /* CHECK SIZE 2MB */
+                    if( $_FILES['mou_doc']['size'] > 2100000 ){
+                        $arr['error']['mou_doc'] = 'ขนาดไฟล์ต้องไม่เกิน 2MB (เมกะไบต์)';
+                    }
+                }
+            }
+
+            if( !empty($presentation['presentation']) ){
+                if( empty($_POST["submission_type"]) ){
+                    $arr['error']['submission_type'] = 'กรุณาเลือก Submission Type';
+                }
+                else{
+                    $postData['submission_type'] = $_POST["submission_type"];
+                }
+            }
+
+            if( empty($_POST["payment_type"]) ){
+                $arr['error']['payment_type'] = 'กรุณาเลือก Payment Type';
+            }
+            else{
+                $postData['payment_type'] = $_POST["payment_type"];
+            }
+
+            if( empty($arr['error']) ){
+                if( !empty($id) ){
+                    $this->model->update($id, $postData);
+                }
+                else{
+                    $this->model->insert($postData);
+                    $id = $postData['id'];
+                }
+
+                if( !empty($id) ){
+                    if( !empty($_FILES["stu_card"]) ){
+                        if( !empty($item['path_std']) ){
+                            @unlink(WWW_UPLOADS."file/".$item['path_std']);
+                        }
+                        $type = strrchr($_FILES["stu_card"],".");
+                        $name_std = 'stu_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
+                        move_uploaded_file($_FILES["stu_card"]["tmp_name"], WWW_UPLOADS."file/".$name_std);
+
+                        $data['path_std'] = $name_std;
+                    }
+                    if( !empty($_FILES["mou_doc"]) ){
+                        if( !empty($item['path_mou']) ){
+                            @unlink(WWW_UPLOADS."file/".$item['path_mou']);
+                        }
+                        $type = strrchr($_FILES["mou_doc"],".");
+                        $name_mou = 'mou_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
+                        move_uploaded_file($_FILES["mou_doc"]["tmp_name"], WWW_UPLOADS."file/".$name_mou);
+
+                        $data['path_mou'] = $name_mou;
+                    }
+
+                    if( !empty($data) ){
+                        $this->model->update($id, $data);
+                    }
+                }
+            }
+
+        } catch (Exception $e) {
+            $arr['error'] = $this->_getError($e->getMessage());
+        }
+        echo json_encode($arr);
+    }
 
     /*ATTEND*/
     public function add_attend(){
@@ -173,6 +288,6 @@ class Registration extends Controller {
         if( !empty($url) ){
             $text .= '/'.str_replace("-", " ", $url);
         }
-        echo json_encode( $this->model->load('presentation')->getSubmission($text) );
+        echo json_encode( $this->model->load('presentation')->getPresentation($text) );
     }
 }

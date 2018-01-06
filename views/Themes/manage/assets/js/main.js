@@ -2477,6 +2477,11 @@ if ( typeof Object.create !== 'function' ) {
 						)
 					)
 				);
+
+				if( self.currPayment == obj.id ){
+					self.$pay.find('input').prop('checked', true);
+				}
+
 				if( international==1 ){
 					self.$pay.find("[data-id=1]").remove();
 				}
