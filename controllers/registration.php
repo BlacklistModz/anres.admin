@@ -169,6 +169,9 @@ class Registration extends Controller {
                         $this->model->update($id, $data);
                     }
                 }
+
+                $arr['message'] = 'บันทึกข้อมูลเรียบร้อย';
+                $arr['url'] = URL.'registration';
             }
 
         } catch (Exception $e) {
