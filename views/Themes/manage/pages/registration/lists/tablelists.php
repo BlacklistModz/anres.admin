@@ -61,7 +61,7 @@ if( !empty($this->results['lists']) ){
                     <a href="'.URL.'registration/edit/'.$item['uid'].'" class="btn btn-orange btn-no-padding"><i class="icon-pencil"></i></a>
                 </span>'.
                 '<span class="gbtn">
-                    <a href="'.URL.'registration/del/'.$item['uid'].'" class="btn btn-red btn-no-padding"><i class="icon-trash"></i></a>
+                    <a data-plugins="dialog" href="'.URL.'registration/del/'.$item['uid'].'" class="btn btn-red btn-no-padding"><i class="icon-trash"></i></a>
                 </span>'.
             '</td>'.
 

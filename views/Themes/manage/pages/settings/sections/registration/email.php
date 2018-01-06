@@ -21,7 +21,7 @@ $url = URL .'email/';
 			<th class="actions"><?=$this->lang->translate('Action')?></th>
 		</tr>
 
-		<?php foreach ($this->data as $key => $item) { ?>
+		<?php foreach ($this->data['lists'] as $key => $item) { ?>
 		<tr>
 			<td class="name">
 				<h3><?=$item['title']?></h3>

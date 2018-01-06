@@ -86,6 +86,13 @@ class Registration extends Controller {
             $form->submit();
             $postData = $form->fetch();
 
+            if( empty($_POST['attend_type']) ){
+                $arr['error']['attend_type'] = 'กรุณาเลือก Attend Type';
+            }
+            if( empty($_POST["presentation_type"]) ){
+                $arr['error']['presentation_type'] = 'กรุณาเลือก Presentation Type';
+            }
+
             $postData['attend_type'] = isset($_POST['attend_type']) ? $_POST['attend_type'] : null;
             $postData['presentation_type'] = isset($_POST['presentation_type']) ? $_POST['presentation_type'] : null;
             $postData['attend_type'] = str_replace("-", " ", $postData["attend_type"]);
@@ -139,6 +146,7 @@ class Registration extends Controller {
                     $this->model->update($id, $postData);
                 }
                 else{
+                    $postData['payment_status'] = 'Waiting';
                     $this->model->insert($postData);
                     $id = $postData['id'];
                 }
@@ -155,10 +163,10 @@ class Registration extends Controller {
                         $data['path_std'] = $name_std;
                     }
                     if( !empty($_FILES["mou_doc"]) ){
-                        if( !empty($item['path_mou']['name']) ){
+                        if( !empty($item['path_mou']) ){
                             @unlink(WWW_UPLOADS."file/".$item['path_mou']);
                         }
-                        $type = strrchr($_FILES["mou_doc"],".");
+                        $type = strrchr($_FILES["mou_doc"]['name'],".");
                         $name_mou = 'mou_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
                         move_uploaded_file($_FILES["mou_doc"]["tmp_name"], WWW_UPLOADS."file/".$name_mou);
 
@@ -172,12 +180,37 @@ class Registration extends Controller {
 
                 $arr['message'] = 'บันทึกข้อมูลเรียบร้อย';
                 $arr['url'] = URL.'registration';
+                $arr['id'] = $id;
             }
 
         } catch (Exception $e) {
             $arr['error'] = $this->_getError($e->getMessage());
         }
         echo json_encode($arr);
+    }
+    public function del($id=null){
+        $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+        if( empty($this->me) ) $this->error();
+
+        $item = $this->model->get($id);
+        if( empty($item) ) $this->error();
+
+        if( !empty($_POST) ){
+            if( !empty($item['permit']['del']) ){
+                $this->model->delete($id);
+                $arr['message'] = 'ลบข้อมูลเรียบร้อย';
+                $arr['url'] = 'refresh';
+            }
+            else{
+                $arr['message'] = 'ไม่สามารถลบข้อมูลได้';
+            }
+            echo json_encode($arr);
+        }
+        else{
+            $this->view->setData('item', $item);
+            $this->view->setPage('path', 'Themes/manage/forms/registration');
+            $this->view->render('del_regis');
+        }
     }
 
     /*ATTEND*/
