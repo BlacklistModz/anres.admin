@@ -33,6 +33,7 @@ if( !empty($sub) ){
 $sub = array();
 $sub[] = array('text'=> $this->lang->translate('Attend'),'key'=>'attend','url'=>$this->pageURL.'settings/registration/attend');
 $sub[] = array('text'=> $this->lang->translate('Types'),'key'=>'types','url'=>$this->pageURL.'settings/registration/types'); //presentation_types
+$sub[] = array('text'=> $this->lang->translate('E-mail'),'key'=>'email','url'=>$this->pageURL.'settings/registration/email');
 // $sub[] = array('text'=> $this->lang->translate('User Roles'),'key'=>'roles','url'=>$this->pageURL.'settings/users/roles');
 
 /* foreach ($sub as $key => $value) {

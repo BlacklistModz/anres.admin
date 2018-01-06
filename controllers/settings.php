@@ -71,8 +71,12 @@ class Settings extends Controller {
 
         if( $tap=='attend' ){
           $data = $this->model->load('registration')->attend();
-        }elseif( $tap=='types' ){
+        }
+        elseif( $tap=='types' ){
           $data = $this->model->load('presentation')->types();
+        }
+        elseif( $tap=='email' ){
+          $data = $this->model->load('email')->email();
         }
         else{
           $this->error();
