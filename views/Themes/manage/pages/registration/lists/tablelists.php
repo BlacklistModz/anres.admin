@@ -3,11 +3,11 @@
 $tr = "";
 $tr_total = "";
 
-if( !empty($this->results['lists']) ){ 
+if( !empty($this->results['lists']) ){
     //print_r($this->results); die;
 
     $seq = 0;
-    foreach ($this->results['lists'] as $i => $item) { 
+    foreach ($this->results['lists'] as $i => $item) {
         // $item = $item;
         $cls = $i%2 ? 'even' : "odd";
         // set Name
@@ -66,9 +66,9 @@ if( !empty($this->results['lists']) ){
             '</td>'.
 
         '</tr>';
-        
+
     }
-  
+
 }
 
 $table = '<table><tbody>'. $tr. '</tbody>'.$tr_total.'</table>';
