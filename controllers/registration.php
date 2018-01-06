@@ -86,6 +86,12 @@ class Registration extends Controller {
             $form->submit();
             $postData = $form->fetch();
 
+            $has_email = true;
+            if( $item['email'] == $postData['email'] ) $has_email = false;
+            if( $this->model->is_email($postData['email']) && $has_email ){
+                $arr['error']['email'] = 'ตรวจพบ Email นี้ซ้ำในระบบ';
+            }
+
             if( empty($_POST['attend_type']) ){
                 $arr['error']['attend_type'] = 'กรุณาเลือก Attend Type';
             }
