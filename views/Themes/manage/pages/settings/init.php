@@ -13,7 +13,7 @@ foreach ($sub as $key => $value) {
 }
 if( !empty($sub) ){
 	$this->count_nav+=count($sub);
-	$menu[] = array('text' => $this->lang->translate('Preferences'), 'url' => $this->pageURL.'settings/system', 'sub' => $sub);
+	$menu[] = array('text' => $this->lang->translate('Preferences'), 'url' => $this->pageURL.'settings', 'sub' => $sub);
 }
 
 // admin
