@@ -16,14 +16,16 @@ $form 	->field("email_title")
         ->value( !empty($this->item['title'])? $this->item['title']:'' );
 
 $form 	->field("email_detial")
-	    	->label($this->lang->translate('Detial').'*')
+	    ->label($this->lang->translate('Detial').'*')
         ->autocomplete('off')
         ->addClass('inputtext')
+        ->type('textarea')
+        ->attr('data-plugins', 'autosize')
         ->placeholder('')
         ->value( !empty($this->item['detial'])? $this->item['detial']:'' );
 
 # set form
-$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'email/save_email"></form>';
+$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'emails/save"></form>';
 
 # body
 $arr['body'] = $form->html();
@@ -41,6 +43,6 @@ else{
 $arr['button'] = '<button type="submit" class="btn btn-primary btn-submit"><span class="btn-text">'.$this->lang->translate('Save').'</span></button>';
 $arr['bottom_msg'] = '<a class="btn" role="dialog-close"><span class="btn-text">'.$this->lang->translate('Cancel').'</span></a>';
 
-// $arr['width'] = 782;
+$arr['width'] = 600;
 
 echo json_encode($arr);

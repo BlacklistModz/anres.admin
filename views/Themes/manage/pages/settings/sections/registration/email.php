@@ -1,13 +1,13 @@
 <?php
 
-$url = URL .'email/';
+$url = URL .'emails/';
 
 
 ?><div class="pal"><div class="setting-header cleafix">
 
 <div class="rfloat">
 
-	<span class=""><a class="btn btn-blue" data-plugins="dialog" href="<?=$url?>add_email"><i class="icon-plus mrs"></i><span><?=$this->lang->translate("Add New")?></span></a></span>
+	<span class=""><a class="btn btn-blue" data-plugins="dialog" href="<?=$url?>add"><i class="icon-plus mrs"></i><span><?=$this->lang->translate("Add New")?></span></a></span>
 
 </div>
 
@@ -29,10 +29,10 @@ $url = URL .'email/';
 
 			<td class="actions whitespace">
 				<span class="gbtn">
-					<a data-plugins="dialog" href="<?=$url?>edit_email/<?=$item['id'];?>" class="btn btn-orange btn-no-padding"><i class="icon-pencil"></i></a>
+					<a data-plugins="dialog" href="<?=$url?>edit/<?=$item['id'];?>" class="btn btn-orange btn-no-padding"><i class="icon-pencil"></i></a>
 				</span>
 				<span class="gbtn">
-					<a data-plugins="dialog" href="<?=$url?>del_email/<?=$item['id'];?>" class="btn btn-red btn-no-padding"><i class="icon-trash"></i></a>
+					<a data-plugins="dialog" href="<?=$url?>del/<?=$item['id'];?>" class="btn btn-red btn-no-padding"><i class="icon-trash"></i></a>
 				</span>
 			</td>
 

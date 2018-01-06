@@ -76,8 +76,7 @@ class Settings extends Controller {
           $data = $this->model->load('presentation')->types();
         }
         elseif( $tap=='email' ){
-          $data = $this->model->load('email')->lists();
-          print_r($data);die;
+          $data = $this->model->load('emails')->lists();
         }
         else{
           $this->error();
