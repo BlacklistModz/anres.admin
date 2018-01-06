@@ -6,50 +6,9 @@ class Email extends Controller {
         parent::__construct();
     }
 
-    public function index($id=null){
-    	$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
-
-        $this->view->setPage('on', 'email');
-        $this->view->setPage('title', 'E-mail');
-
-    	if( !empty($id) ){
-            $this->error();
-    	}
-    	else{
-    		if( $this->format=='json' ){
-    			$this->view->setData('results', $this->model->lists());
-    			$render = "email/lists/json";
-    		}
-    		else{
-                $this->view->setData('country', $this->model->country());
-                $this->view->setData('paymentStatus', $this->model->paymentStatus());
-    			$render = "email/lists/display";
-    		}
-    	}
-    	$this->view->render($render);
-    }
-    public function add(){
-        if( empty($this->me) ) $this->error();
-
-        $this->view->setPage('on','email');
-        $this->view->setPage('title', 'Create E-mail');
-
-        $this->view->setData('title_detial', $this->model->title());
-        $this->view->render('email/forms/add');
-    }
-    public function edit($id=null){
-        $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
-        if( empty($this->me) ) $this->error();
-
-        $this->view->setPage('on','email');
-        $this->view->setPage('title', 'Edit E-mail');
-
-        $item = $this->model->get($id);
-        if( empty($item) ) $this->error();
-
-        $this->view->setData('item', $item);
-        $this->view->render('email/forms/add');
-    }
+    public function index(){
+  		$this->error();
+  	}
 
     public function add_email(){
       if( empty($this->me) || $this->format!='json' ) $this->error();
@@ -80,7 +39,7 @@ class Email extends Controller {
         try{
             $form = new Form();
             $form   ->post('email_title')->val('is_empty')
-                    ->post('email_detial')->val('is_empty');
+                    ->post('email_detial');
             $form->submit();
             $postData = $form->fetch();
 
@@ -88,9 +47,9 @@ class Email extends Controller {
             if( !empty($item) ){
                 if( $item['title'] == $postData['email_title'] ) $has_name = false;
             }
-            if( $this->model->is_email($postData['email_title']) && $has_name ){
-                $arr['error']['email_title'] = 'This name have already !';
-            }
+            // if( $this->model->is_email($postData['email_title']) && $has_name ){
+            //     $arr['error']['email_title'] = 'This name have already !';
+            // }
 
             if( empty($arr['error']) ){
                 if(!empty($id)){

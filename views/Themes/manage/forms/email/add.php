@@ -20,10 +20,10 @@ $form 	->field("email_detial")
         ->autocomplete('off')
         ->addClass('inputtext')
         ->placeholder('')
-        ->value( !empty($this->item['detial'])? $this->item['Detial']:'' );
+        ->value( !empty($this->item['detial'])? $this->item['detial']:'' );
 
 # set form
-$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'registration/save_email"></form>';
+$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'email/save_email"></form>';
 
 # body
 $arr['body'] = $form->html();
