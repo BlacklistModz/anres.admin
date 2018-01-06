@@ -326,4 +326,20 @@ class Registration extends Controller {
         }
         echo json_encode( $this->model->load('presentation')->getPresentation($text) );
     }
+
+    /* UPLOAD */
+    public function upload_student(){
+        if( !empty($_FILES["stu_card"]) ){
+            $type = strrchr($_FILES["stu_card"]['name'],".");
+            $name_std = 'stu_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
+            move_uploaded_file($_FILES["stu_card"]["tmp_name"], WWW_UPLOADS."file/".$name_std);
+
+            $arr['name'] = $name_std;
+            $arr['path'] = WWW_UPLOADS."file/".$name_std;
+        }
+        else{
+            $arr['error'] = 'false';
+        }
+        echo json_encode($arr);
+    }
 }
