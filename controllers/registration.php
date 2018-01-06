@@ -159,4 +159,10 @@ class Registration extends Controller {
         $arr['message'] = '1';
         echo json_encode($arr);
     }
+
+    /*ATTEND*/
+    public function getAttend($text){
+        $text = str_replace("-", " ", $text);
+        echo json_encode( $this->model->getAttend($text) );
+    }
 }

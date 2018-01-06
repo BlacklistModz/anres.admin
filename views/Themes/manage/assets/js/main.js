@@ -2359,6 +2359,58 @@ if ( typeof Object.create !== 'function' ) {
 		});
 	};
 	$.fn.form_corperation.options = {}
+
+	var formRegistation = {
+		init: function(options, elem){
+			var self = this;
+
+			self.$elem = $(elem);
+			self.options = $.extend( {}, $.fn.formRegistation.settings, options );
+
+			self.$attend = self.$elem.find('input[name=attend_type]');
+			self.$submission = self.options.submission;
+			self.$payment = self.options.payment;
+
+			self.currAttend = self.$elem.find('input[name=attend_type]:checked').val();
+			self.currSubmission = self.options.currSubmission;
+			self.currPayment = self.options.currPayment;
+
+			self.setElem();
+			self.Event();
+		},
+		setElem: function(){
+			self = this;
+
+			self.$elem.find('#stu_card_fieldset').addClass('hidden_elem');
+			self.$elem.find('#mou_doc_fieldset').addClass('hidden_elem');
+
+			if( self.currAttend != '' ){
+				self.setUpload();
+			}
+		},
+		Event: function(){
+			self = this;
+
+			self.$attend.click(function(){
+				self.setUpload();
+			});
+		},
+		setUpload: function(){
+			self = this;
+			var attend = self.$elem.find('input[name=attend_type]:checked').val();
+			$.get( Event.URL + 'registration/getAttend/'+attend, function(res) {
+				console.log( res );
+			},'json');
+		}
+	}
+	$.fn.formRegistation = function( options ) {
+		return this.each(function() {
+			var $this = Object.create( formRegistation );
+			$this.init( options, this );
+			$.data( this, 'formRegistation', $this );
+		});
+	};
+	$.fn.formRegistation.options = {}
 	
 })( jQuery, window, document );
 

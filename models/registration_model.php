@@ -119,6 +119,18 @@ class Registration_Model extends Model{
             return $this->db->query("SELECT attend_id AS id, attend_name AS name, attend_keyword AS keyword, attend_is_student AS is_student, attend_is_international AS is_international, attend_is_mou AS is_mou FROM registration_attend ORDER BY attend_id ASC");
         }
     }
+    public function getAttend($keyword){
+        $sth = $this->db->prepare("SELECT attend_id AS id, attend_name AS name, attend_keyword AS keyword, attend_is_student AS is_student, attend_is_international AS is_international, attend_is_mou AS is_mou FROM registration_attend WHERE attend_keyword=:keyword LIMIT 1");
+        $sth->execute( array(':keyword'=>$keyword) );
+
+        $fdata = $sth->fetch( PDO::FETCH_ASSOC );
+
+        $fdata['permit']['del'] = true;
+
+        return $sth->rowCount()==1
+        ? $fdata
+        : array();
+    }
     public function insertAttend(&$data){
         $this->db->insert("registration_attend", $data);
     }

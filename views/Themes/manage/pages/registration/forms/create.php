@@ -24,15 +24,21 @@ $form 	->field("lastname")
 		->autocomplete('off')
 		->value( !empty($this->item['lastname']) ? $this->item['lastname'] : '' );
 
+$ch_m = '';
+$ch_f = '';
+if( !empty($this->item['gender']) ){
+	$ch_m = $this->item['gender'] == 'Male' ? 'checked="1"' : '';
+	$ch_f = $this->item['gender'] == 'Female' ? 'checked="1"' : '';
+}
 $sex = '<ul>
 			<li>
 				<label class="radio">
-					<input type="radio" '.($this->item['gender'] == 'Male' ? 'checked="1"' : '').' name="gender" value="Male"> Male
+					<input type="radio" '.$ch_m.' name="gender" value="Male"> Male
 				</label>
 			</li>
 			<li>
 				<label class="radio">
-					<input type="radio" '.($this->item['gender'] == 'Female' ? 'checked="1"' : '').'  name="gender" value="Female"> Female
+					<input type="radio" '.$ch_f.'  name="gender" value="Female"> Female
 				</label>
 			</li>
 		</ul>';
@@ -90,6 +96,8 @@ foreach ($this->attend as $key => $value) {
 	if( !empty($this->item['attend_type']) ){
 		if( $this->item['attend_type'] == $value['keyword'] ) $ch =' checked="1"';
 	}
+
+	$value['keyword'] = str_replace(" ", "-", $value['keyword']);
 	$attend .= '<li><label class="radio"><input'.$ch.' type="radio" name="attend_type" value="'.$value['keyword'].'">'.$value['name'].'</label></li>';
 }
 $attend = !empty($attend) ? "<ul>{$attend}</ul>" : "";
@@ -130,7 +138,7 @@ $form 	->field("presentation_type")
 		->attr('data-name', 'types')
 		->text( $types );
 
-$submission = '';
+/* $submission = '';
 foreach ($this->submission as $key => $value) {
 	$ch = '';
 	if( !empty($this->item['submission_type']) ){
@@ -138,14 +146,14 @@ foreach ($this->submission as $key => $value) {
 	}
 	$submission .= '<li><label class="radio"><input type="radio" name="submission_type" value="'.$value['id'].'">'.$value['name'].'</label></li>';
 }
-$submission = !empty($submission) ? "<ul>{$submission}</ul>" : "";
+$submission = !empty($submission) ? "<ul>{$submission}</ul>" : ""; */
 
 $form 	->field("submission_type")
 		->label('<span class="fwb" style="color:black;">Please choose a submission types*</span>')
 		->attr('data-name', 'submission')
-		->text( $submission );
+		->text( '<ul id="submission"></ul>' );
 
-$payment = '';
+/* $payment = '';
 foreach ($this->payment as $key => $value) {
 	$ch = '';
 	if( !empty($this->item['payment_type']) ){
@@ -153,11 +161,19 @@ foreach ($this->payment as $key => $value) {
 	}
 	$payment .= '<li><label class="radio"><input'.$ch.' type="radio" name="payment_type" value="'.$value['id'].'">'.$value['name'].'</label></li>';
 }
-$payment = !empty($payment) ? "<ul>{$payment}</ul>" : "";
+$payment = !empty($payment) ? "<ul>{$payment}</ul>" : ""; */
 $form 	->field("payment_type")
 		->label('<span class="fwb" style="color:black;">Payment type*</span>')
 		->attr('data-name', 'payment')
-		->text( $payment );
+		->text( '<ul id="payment_type"></ul>' );
+
+$options = $this->fn->stringify( array(
+			'submission' => $this->submission,
+			'payment' => $this->payment,
+			'currAttend' => !empty($this->item['attend_type']) ? $this->item['attend_type'] : '',
+			'currSubmission' => !empty($this->item['submission_type']) ? $this->item['submission_type'] : '',
+			'currPayment' => !empty($this->item['payment_type']) ? $this->item['payment_type'] : ''
+		) );
 ?>
 
 <div id="mainContainer" class="clearfix" data-plugins="main">
@@ -167,7 +183,7 @@ $form 	->field("payment_type")
 				<h3 class="mbl"><i class="icon-paper-plane-o"></i> Registration form</h3>
 			</div>
 			<div class="uiBoxWhite pam" style="width: 750px;">
-				<form class="js-submit-form" action="<?=URL?>save">
+				<form class="js-submit-form" action="<?=URL?>save" data-plugins="formRegistation" data-options="<?=$options?>">
 					<?=$form->html()?>
 					<div class="clearfix mtl">
 						<div class="lfloat">
