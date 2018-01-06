@@ -62,7 +62,7 @@ class Users_Model extends Model{
 
         if( ($options['pager']*$options['limit']) >= $arr['total'] ) $options['more'] = false;
         $arr['options'] = $options;
-        
+
         return $arr;
     }
     public function buildFrag($results, $options=array()) {
@@ -144,4 +144,34 @@ class Users_Model extends Model{
     public function is_email($text){
     	return $this->db->count($this->_objName, "email=:text", array(":text"=>$text));
     }
+
+    #accounts
+      public function accounts($id=null){
+          if( !empty($id) ){
+              $sth = $this->db->prepare("SELECT id AS id, firstname AS firstname, lastname AS lastname, email AS email, username AS username, password AS password FROM users WHERE id=:id LIMIT 1");
+              $sth->execute( array(':id'=>$id) );
+
+              $fdata = $sth->fetch( PDO::FETCH_ASSOC );
+
+              $fdata['permit']['del'] = true;
+
+              return $sth->rowCount()==1
+              ? $fdata
+              : array();
+          }
+          else{
+              return $this->db->query("SELECT id AS id, firstname AS firstname, lastname AS lastname, email AS email, username AS username, password AS password FROM users ORDER BY id ASC");
+          }
+      }
+      public function insertAccounts(&$data){
+          $data['create_stamp'] = date("c");
+          $data['update_stamp'] = date("c");
+          $this->db->insert("users", $data);
+      }
+      public function updateAccounts($id, $data){
+          $this->db->update("users", $data, "id={$id}");
+      }
+      public function deleteAccounts($id){
+          $this->db->delete("users", "id={$id}");
+      }
 }

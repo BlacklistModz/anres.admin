@@ -16,6 +16,16 @@ if( !empty($sub) ){
 	$menu[] = array('text' => $this->lang->translate('Preferences'), 'url' => $this->pageURL.'settings/system', 'sub' => $sub);
 }
 
+// admin
+$sub = array();
+$sub[] = array('text'=> $this->lang->translate('Administrator'),'key'=>'admin','url'=>$this->pageURL.'settings/accounts/admin');
+
+if( !empty($sub) ){
+	$this->count_nav+=count($sub);
+	$menu[] = array('text'=> $this->lang->translate('Accounts'),'sub' => $sub, 'url' => $this->pageURL.'settings/accounts');
+}
+
+
 
 /**/
 /* Accounts */
