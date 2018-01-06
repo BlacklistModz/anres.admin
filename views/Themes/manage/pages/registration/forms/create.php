@@ -129,6 +129,7 @@ foreach ($this->types as $key => $value) {
 	if( !empty($this->item['presentation_type']) ){
 		if( $value['keyword'] == $this->item['presentation_type'] ) $ch = ' checked="1"';
 	}
+	$value['keyword'] = str_replace(" ", "-", $value["keyword"]);
 	$types .= '<li><label class="radio"><input'.$ch.' type="radio" name="presentation_type" value="'.$value['keyword'].'">'.$value['name'].'</label></li>';
 }
 $types = !empty($types) ? "<ul>{$types}</ul>" : "";

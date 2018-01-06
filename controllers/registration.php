@@ -161,8 +161,18 @@ class Registration extends Controller {
     }
 
     /*ATTEND*/
-    public function getAttend($text){
+    public function getAttend($text=null, $url=null){
         $text = str_replace("-", " ", $text);
+        if( !empty($url) ){
+            $text .= '/'.str_replace("-", " ", $url);
+        }
         echo json_encode( $this->model->getAttend($text) );
+    }
+    public function getSubmission($text=null, $url=null){
+        $text = str_replace("-", " ", $text);
+        if( !empty($url) ){
+            $text .= '/'.str_replace("-", " ", $url);
+        }
+        echo json_encode( $this->model->load('presentation')->getSubmission($text) );
     }
 }

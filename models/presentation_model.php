@@ -7,7 +7,7 @@ class presentation_Model extends Model{
 
     public function types($id=null){
         if( !empty($id) ){
-            $sth = $this->db->prepare("SELECT type_id AS id, type_name AS name, type_is_presentation
+        $sth = $this->db->prepare("SELECT type_id AS id, type_name AS name, type_is_presentation
               AS presentation, type_keyword AS keyword FROM presentation_types WHERE type_id=:id LIMIT 1");
         $sth->execute( array(
             ':id' => $id
@@ -40,6 +40,20 @@ class presentation_Model extends Model{
 
     public function is_presentation($text){
       return $this->db->count("presentation_types", "type_name=:text", array(":text"=>$text));
+    }
+    public function getSubmission($keyword){
+      $sth = $this->db->prepare("SELECT type_id AS id, type_name AS name, type_is_presentation
+        AS presentation, type_keyword AS keyword FROM presentation_types WHERE type_keyword=:keyword LIMIT 1");
+      $sth->execute( array(
+        ':keyword' => $keyword
+      ) );
+
+      $fdata = $sth->fetch( PDO::FETCH_ASSOC );
+      $fdata['permit']['del'] = true;
+
+      return $sth->rowCount()==1
+      ? $fdata
+      : array();
     }
   }
   ?>
