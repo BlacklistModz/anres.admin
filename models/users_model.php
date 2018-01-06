@@ -129,7 +129,7 @@ class Users_Model extends Model{
     }*/
     public function login($user, $pass){
         // OR email=:login
-        $sth = $this->db->prepare("SELECT id,password FROM {$this->_table} WHERE username=:login");
+        $sth = $this->db->prepare("SELECT id,password FROM {$this->_table} WHERE username=:login AND permission='admin'");
         $sth->execute( array(
             ':login' => $user
         ) );
