@@ -87,7 +87,9 @@ class Registration extends Controller {
             $postData = $form->fetch();
 
             $has_email = true;
-            if( $item['email'] == $postData['email'] ) $has_email = false;
+            if( !empty($item) ){
+                if( $item['email'] == $postData['email'] ) $has_email = false;
+            }
             if( $this->model->is_email($postData['email']) && $has_email ){
                 $arr['error']['email'] = 'ตรวจพบ Email นี้ซ้ำในระบบ';
             }
