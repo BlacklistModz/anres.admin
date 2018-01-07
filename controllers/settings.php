@@ -71,8 +71,12 @@ class Settings extends Controller {
 
         if( $tap=='attend' ){
           $data = $this->model->load('registration')->attend();
-        }elseif( $tap=='types' ){
+        }
+        elseif( $tap=='types' ){
           $data = $this->model->load('presentation')->types();
+        }
+        elseif( $tap=='email' ){
+          $data = $this->model->load('emails')->lists();
         }
         else{
           $this->error();
@@ -80,5 +84,30 @@ class Settings extends Controller {
 
         $this->view->setData('data', $data);
         $this->view->render("settings/display");
+    }
+
+    /*Accounts*/
+    public function accounts($tap='admin'){
+        $this->view->setPage("title", "Setting ".ucfirst($tap));
+
+        $this->view->setPage('on', 'settings' );
+        $this->view->setData('section', 'accounts');
+        $this->view->setData('tap', $tap);
+        // $this->view->setData('_tap', $tap);
+        $render = "settings/display";
+
+        if( $tap=='admin' ){
+            $data = array();
+            if( $this->format=='json' ){
+                $this->view->setData('results', $this->model->load('users')->lists());
+                $render = "settings/sections/accounts/admin/json";
+            }
+        }
+        else{
+          $this->error();
+        }
+
+        $this->view->setData('data', $data);
+        $this->view->render($render);
     }
 }

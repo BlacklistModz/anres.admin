@@ -38,7 +38,7 @@ $form 	->field("is_mou")
 				->text( $ch_box );
 
 # set form
-$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'registration/save"></form>';
+$arr['form'] = '<form class="js-submit-form" method="post" action="'.URL. 'registration/save_attend"></form>';
 
 # body
 $arr['body'] = $form->html();

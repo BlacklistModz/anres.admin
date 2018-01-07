@@ -7,7 +7,7 @@ $url = URL .'presentation/';
 
 <div class="rfloat">
 
-	<span class=""><a class="btn btn-blue" data-plugins="dialog" href="<?=$url?>add"><i class="icon-plus mrs"></i><span><?=$this->lang->translate("Add New")?></span></a></span>
+	<span class=""><a class="btn btn-blue" data-plugins="dialog" href="<?=$url?>add_type"><i class="icon-plus mrs"></i><span><?=$this->lang->translate("Add New")?></span></a></span>
 
 </div>
 
@@ -28,8 +28,12 @@ $url = URL .'presentation/';
 			</td>
 
 			<td class="actions whitespace">
-				<span class=""><a data-plugins="dialog" href="<?=$url?>edit/<?=$item['id'];?>" class="btn btn-blue"><i class="icon-pencil"></i></a></span>
-				<span class=""><a data-plugins="dialog" href="<?=$url?>del/<?=$item['id'];?>" class="btn btn-red"><i class="icon-trash"></i></a></span>
+				<span class="gbtn">
+					<a data-plugins="dialog" href="<?=$url?>edit_type/<?=$item['id'];?>" class="btn btn-orange btn-no-padding"><i class="icon-pencil"></i></a>
+				</span>
+				<span class="gbtn">
+					<a data-plugins="dialog" href="<?=$url?>del_type/<?=$item['id'];?>" class="btn btn-red btn-no-padding"><i class="icon-trash"></i></a>
+				</span>
 			</td>
 
 		</tr>

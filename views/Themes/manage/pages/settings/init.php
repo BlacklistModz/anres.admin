@@ -13,8 +13,18 @@ foreach ($sub as $key => $value) {
 }
 if( !empty($sub) ){
 	$this->count_nav+=count($sub);
-	$menu[] = array('text' => $this->lang->translate('Preferences'), 'url' => $this->pageURL.'settings/system', 'sub' => $sub);
+	$menu[] = array('text' => $this->lang->translate('Preferences'), 'url' => $this->pageURL.'settings', 'sub' => $sub);
 }
+
+// admin
+$sub = array();
+$sub[] = array('text'=> 'ผู้ใช้งาน','key'=>'admin','url'=>$this->pageURL.'settings/accounts/admin');
+
+if( !empty($sub) ){
+	$this->count_nav+=count($sub);
+	$menu[] = array('text'=> $this->lang->translate('Accounts'),'sub' => $sub, 'url' => $this->pageURL.'settings/accounts');
+}
+
 
 
 /**/
@@ -22,7 +32,8 @@ if( !empty($sub) ){
 /**/
 $sub = array();
 $sub[] = array('text'=> $this->lang->translate('Attend'),'key'=>'attend','url'=>$this->pageURL.'settings/registration/attend');
-$sub[] = array('text'=> $this->lang->translate('Types'),'key'=>'users','url'=>$this->pageURL.'settings/registration/types'); //presentation_types
+$sub[] = array('text'=> $this->lang->translate('Types'),'key'=>'types','url'=>$this->pageURL.'settings/registration/types'); //presentation_types
+$sub[] = array('text'=> $this->lang->translate('E-mail'),'key'=>'email','url'=>$this->pageURL.'settings/registration/email');
 // $sub[] = array('text'=> $this->lang->translate('User Roles'),'key'=>'roles','url'=>$this->pageURL.'settings/users/roles');
 
 /* foreach ($sub as $key => $value) {

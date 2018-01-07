@@ -230,9 +230,9 @@ class System_Model extends Model{
     /**/
     public function prefixName( $options=array() ){
 
-        $a['Mr.'] = array('id'=>'Mr.', 'name'=> $this->lang->translate('Mr.') );
-        $a['Mrs.'] = array('id'=>'Mrs.', 'name'=> $this->lang->translate('Mrs.') );
-        $a['Ms.'] = array('id'=>'Ms.', 'name'=> $this->lang->translate('Ms.') );
+        $a['Mr.'] = array('id'=>'Mr.', 'name'=> 'Mr.' );
+        $a['Mrs.'] = array('id'=>'Mrs.', 'name'=> 'Mrs.' );
+        $a['Ms.'] = array('id'=>'Ms.', 'name'=> 'Ms.' );
 
         return array_merge($a, $options);
     }

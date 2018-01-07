@@ -2359,6 +2359,143 @@ if ( typeof Object.create !== 'function' ) {
 		});
 	};
 	$.fn.form_corperation.options = {}
+
+	var formRegistation = {
+		init: function(options, elem){
+			var self = this;
+
+			self.$elem = $(elem);
+			self.options = $.extend( {}, $.fn.formRegistation.settings, options );
+
+			self.$attend = self.$elem.find('input[name=attend_type]');
+			self.$presentation = self.$elem.find('input[name=presentation_type]');
+			self.$sub = self.$elem.find('#submission');
+			self.$pay = self.$elem.find('#payment_type');
+
+			// self.$submission = self.options.submission;
+			self.$submission = self.$elem.find('#submission_type_fieldset');
+			self.$payment = self.options.payment;
+
+			self.currAttend = self.$elem.find('input[name=attend_type]:checked').val();
+			self.currPresentation = self.$elem.find('input[name=presentation_type]:checked').val();
+			self.currSubmission = self.options.currSubmission;
+			self.currPayment = self.options.currPayment;
+
+			self.setElem();
+			self.Event();
+		},
+		setElem: function(){
+			var self = this;
+
+			self.$elem.find('#stu_card_fieldset').addClass('hidden_elem');
+			self.$elem.find('#mou_doc_fieldset').addClass('hidden_elem');
+			self.$submission.addClass('hidden_elem');
+
+			if( self.currAttend != '' ){
+				self.setUpload();
+			}
+
+			if( self.currPresentation != '' ){
+				self.setSubmission();
+			}
+		},
+		Event: function(){
+			var self = this;
+
+			self.$attend.click(function(){
+				self.setUpload();
+			});
+
+			self.$presentation.click(function(){
+				self.setSubmission();
+			});
+		},
+		setUpload: function(){
+			var self = this;
+			var attend = self.$elem.find('input[name=attend_type]:checked').val();
+			$.get( Event.URL + 'registration/getAttend/'+attend, function(res) {
+				if( res.is_mou == 1 ){
+					self.$elem.find('#stu_card_fieldset').addClass('hidden_elem');
+					self.$elem.find('#mou_doc_fieldset').removeClass('hidden_elem');
+				}
+
+				if( res.is_student == 1 ){
+					self.$elem.find('#stu_card_fieldset').removeClass('hidden_elem');
+					self.$elem.find('#mou_doc_fieldset').addClass('hidden_elem');
+				}
+
+				if( res.is_student == 1 && res.is_mou == 0 ){
+					self.$elem.find('#stu_card_fieldset').removeClass('hidden_elem');
+					self.$elem.find('#mou_doc_fieldset').addClass('hidden_elem');
+				}
+
+				if( res.is_student == 1 && res.is_mou == 1 ){
+					self.$elem.find('#stu_card_fieldset').removeClass('hidden_elem');
+					self.$elem.find('#mou_doc_fieldset').removeClass('hidden_elem');
+				}
+
+				if( res.is_student == 0 && res.is_mou == 0 ){
+					self.$elem.find('#stu_card_fieldset').addClass('hidden_elem');
+					self.$elem.find('#mou_doc_fieldset').addClass('hidden_elem');
+				}
+				self.setPayment( res.is_international );
+			},'json');
+		},
+		setSubmission: function(){
+			var self = this;
+			var presentation = self.$elem.find('input[name=presentation_type]:checked').val();
+			$.get( Event.URL + "registration/getSubmission/"+presentation , function(res){
+				self.$submission.addClass('hidden_elem');
+				self.$sub.empty();
+				if( res.presentation == 1 ){
+					// var $li = $('<li>');
+					self.$submission.removeClass('hidden_elem');
+					$.each( self.options.submission, function(i,obj) {
+						self.$sub.append( 
+							$('<li>').append(
+								$('<label>', {class:"radio", text:obj.name}).append(
+									$('<input>', {type:"radio", name:"submission_type", value:obj.id})
+								)
+							)
+						);
+						if( obj.id == self.currSubmission ){
+							self.$sub.find('input[submission_type]').prop('checked', 1);
+						}
+					});
+				}
+			},'json');
+		},
+		setPayment: function( international=0 ){
+			var self = this;
+
+			self.$pay.empty();
+			$.each( self.options.payment, function(i,obj) {
+				self.$pay.append(
+					$('<li>', {"data-id":obj.id}).append(
+						$('<label>', {class:"radio", text:obj.name}).append(
+							$('<input>', {type:"radio", name:"payment_type", value:obj.id})
+						)
+					)
+				);
+
+				if( self.currPayment == obj.id ){
+					self.$pay.find('input').prop('checked', true);
+				}
+
+				if( international==1 ){
+					self.$pay.find("[data-id=1]").remove();
+				}
+			});
+		}
+	}
+	$.fn.formRegistation = function( options ) {
+		return this.each(function() {
+			var $this = Object.create( formRegistation );
+			$this.init( options, this );
+			$.data( this, 'formRegistation', $this );
+		});
+	};
+	$.fn.formRegistation.options = {}
 	
 })( jQuery, window, document );
 

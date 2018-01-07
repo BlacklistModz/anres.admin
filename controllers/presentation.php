@@ -6,30 +6,30 @@ class Presentation extends Controller {
         parent::__construct();
     }
 
-    public function index($id=null){
-    	$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
-    	if( !empty($id) ){
+    // public function index($id=null){
+    // 	$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+    // 	if( !empty($id) ){
 
-    	}
-    	else{
-    		if( $this->format=='json' ){
-    			$this->view->setData('results', $this->model->lists());
-    			$render = "presentation/lists/json";
-    		}
-    		else{
-    			$render = "presentation/lists/display";
-    		}
-    	}
-    	$this->view->render($render);
-    }
+    // 	}
+    // 	else{
+    // 		if( $this->format=='json' ){
+    // 			$this->view->setData('results', $this->model->lists());
+    // 			$render = "presentation/lists/json";
+    // 		}
+    // 		else{
+    // 			$render = "presentation/lists/display";
+    // 		}
+    // 	}
+    // 	$this->view->render($render);
+    // }
 
-    public function add(){
+    public function add_type(){
       if( empty($this->me) || $this->format!='json' ) $this->error();
 
         $this->view->setPage('path','Themes/manage/forms/presentation');
         $this->view->render('add');
     }
-    public function edit($id=null){
+    public function edit_type($id=null){
       $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
         if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
 
@@ -40,7 +40,7 @@ class Presentation extends Controller {
         $this->view->setPage('path','Themes/manage/forms/presentation');
         $this->view->render('add');
     }
-    public function save(){
+    public function save_type(){
       if( empty($_POST) ) $this->error();
 
         $id = isset($_POST["id"]) ? $_POST["id"] : null;
@@ -51,24 +51,38 @@ class Presentation extends Controller {
 
         try{
             $form = new Form();
-            $form   ->post('types_name')->val('is_empty');
+            $form   ->post('type_name')->val('is_empty')
+                    ->post('type_keyword')->val('is_empty');
             $form->submit();
             $postData = $form->fetch();
 
             $has_name = true;
             if( !empty($item) ){
-                if( $item['name'] == $postData['types_name'] ) $has_name = false;
+                if( $item['name'] == $postData['type_name'] ) $has_name = false;
             }
+<<<<<<< HEAD
             if( $this->model->is_types($postData['types_name']) && $has_name ){
                 $arr['error']['types_name'] = 'This name have already !';
+=======
+            if( $this->model->is_presentation($postData['type_name']) && $has_name ){
+                $arr['error']['type_name'] = 'This name have already !';
+>>>>>>> b2c08dfbda52069804a37c79ab06a4a52e671b4b
             }
+            $postData["type_is_presentation"] = isset($_POST["type_is_presentation"]) ? 1 : 0;
 
             if( empty($arr['error']) ){
                 if(!empty($id)){
+<<<<<<< HEAD
                     $this->model->updateTypes($id, $postData);
                 }
                 else{
                     $this->model->insertTypes($postData);
+=======
+                    $this->model->updateType($id, $postData);
+                }
+                else{
+                    $this->model->insertType($postData);
+>>>>>>> b2c08dfbda52069804a37c79ab06a4a52e671b4b
                 }
 
                 $arr['message'] = 'Saved !';
@@ -80,7 +94,7 @@ class Presentation extends Controller {
         }
         echo json_encode($arr);
     }
-    public function del($id=null){
+    public function del_type($id=null){
         $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
         if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
 
@@ -89,7 +103,11 @@ class Presentation extends Controller {
 
         if( !empty($_POST) ){
             if( !empty($item['permit']['del']) ){
+<<<<<<< HEAD
                 $this->model->deleteTypes($id);
+=======
+                $this->model->deleteType($id);
+>>>>>>> b2c08dfbda52069804a37c79ab06a4a52e671b4b
                 $arr['message'] = 'Deleted !';
                 $arr['url'] = 'refresh';
             }
@@ -100,7 +118,7 @@ class Presentation extends Controller {
         }
         else{
             $this->view->setData('item', $item);
-            $this->view->setPage('path', 'Themes/manage/forms/registration');
+            $this->view->setPage('path', 'Themes/manage/forms/presentation');
             $this->view->render('del');
         }
     }
