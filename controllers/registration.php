@@ -82,7 +82,7 @@ class Registration extends Controller {
                     ->post('province')->val('is_empty')
                     ->post('postal')->val('is_empty')
                     ->post('region')->val('is_empty')
-                    ->post('email')->val('is_empty');
+                    ->post('email')->val('email');
             $form->submit();
             $postData = $form->fetch();
 
