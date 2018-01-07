@@ -329,10 +329,10 @@ class Registration extends Controller {
 
     /* UPLOAD */
     public function upload_student(){
-        if( !empty($_FILES["stu_card"]) ){
-            $type = strrchr($_FILES["stu_card"]['name'],".");
+        if( !empty($_FILES["file"]) ){
+            $type = strrchr($_FILES["file"]['name'],".");
             $name_std = 'stu_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
-            move_uploaded_file($_FILES["stu_card"]["tmp_name"], WWW_UPLOADS."file/".$name_std);
+            move_uploaded_file($_FILES["file"]["tmp_name"], WWW_UPLOADS."file/".$name_std);
 
             $arr['name'] = $name_std;
             $arr['path'] = WWW_UPLOADS."file/".$name_std;
@@ -340,6 +340,24 @@ class Registration extends Controller {
         else{
             $arr['error'] = 'false';
         }
+
+        
+        echo json_encode($arr);
+    }
+    public function upload_mou(){
+        if( !empty($_FILES["file"]) ){
+            $type = strrchr($_FILES["file"]['name'],".");
+            $name_std = 'stu_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
+            move_uploaded_file($_FILES["file"]["tmp_name"], WWW_UPLOADS."file/".$name_std);
+
+            $arr['name'] = $name_std;
+            $arr['path'] = WWW_UPLOADS."file/".$name_std;
+        }
+        else{
+            $arr['error'] = 'false';
+        }
+
+        
         echo json_encode($arr);
     }
 }
