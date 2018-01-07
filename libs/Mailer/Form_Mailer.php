@@ -143,4 +143,55 @@ class Form_Mailer
 	</td></tr></tbody></table>';
 
  	}
+
+ 	public function sendConfirm($data=array()){
+ 		return '<p><b>Kasetsart University Research and Development Institute, <br/>
+ 		Kasetsart University, Bangkok 10900, Thailand.<br/>
+ 		Tel. 662 5795548, Fax. 662 5611474<br/>
+ 		E-mail: anresconference@ku.th<br/></b></p>
+ 		<p></p>
+ 		Date: '.date("d-m-Y").'
+ 		<p></p>
+ 		Title: '.$data['title'].'
+ 		<p></p>
+ 		Dear '.$data['fullname'].',
+ 		<p></p>
+ 		<p>We appreciated your interest in “International Conference of Agriculture and Natural Resources (ANRES 2018)” on 26-28 April 2018.  Your payment has been received.<b>You can now upload '.$data['submission_type'].' at http://www.anresconference2018.org/member</b> using</p>
+
+ 		<p><b>Account: '.$data['username'].'<br/>
+ 		Password: '.$data['password'].'</b></p>
+ 		<p></p>
+ 		<p>Should you have any queries, please immediately contact Secretariat at anresconference@ku.th.</p>
+ 		<p></p>
+ 		<p></p>
+ 		<p>Yours Sincerely,</p>
+ 		<p></p>
+ 		<p></p>
+ 		<p>Assoc. Prof. Dr. Thongchai Suwonsichon,<br/>
+ 		Director of Kasetsart University Research and Development Institute</p>';
+ 	}
+
+ 	public function sendThenkYou($data){
+ 		return '<p><b>Kasetsart University Research and Development Institute, <br/>
+ 		Kasetsart University, Bangkok 10900, Thailand.<br/>
+ 		Tel. 662 5795548, Fax. 662 5611474<br/>
+ 		E-mail: anresconference@ku.th<br/></b></p>
+ 		<p></p>
+ 		Date: '.date("d-m-Y").'
+ 		<p></p>
+ 		Title: '.$data['title'].'
+ 		<p></p>
+ 		Dear '.$data['fullname'].',
+ 		<p></p>
+ 		<p>We appreciated your interest in “International Conference of Agriculture and Natural Resources (ANRES 2018)” on 26-28 April 2018.  Your payment has been received.</p>
+ 		<p></p>
+ 		<p>Should you have any queries, please immediately contact Secretariat at anresconference@ku.th.</p>
+ 		<p></p>
+ 		<p></p>
+ 		<p>Yours Sincerely,</p>
+ 		<p></p>
+ 		<p></p>
+ 		<p>Assoc. Prof. Dr. Thongchai Suwonsichon,<br/>
+ 		Director of Kasetsart University Research and Development Institute</p>';
+ 	}
 }

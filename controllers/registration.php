@@ -368,4 +368,72 @@ class Registration extends Controller {
         
         echo json_encode($arr);
     }
+
+    public function comfirm_payment(){
+        $PSourceID = isset($_REQUEST["PSourceID"]) ? $_REQUEST["PSourceID"] : null;
+        $Currency = isset($_REQUEST["Currency"]) ? $_REQUEST["Currency"] : null;
+        $TotAmount = isset($_REQUEST["TotAmount"]) ? $_REQUEST["TotAmount"] : null;
+        $RetCode = isset($_REQUEST["RetCode"]) ? $_REQUEST["RetCode"] : null;
+
+        $item = $this->model->get($PSourceID);
+        if( !empty($item) ){
+            if( $TotAmount != $item['price'] ){
+                $postData['payment_status'] = 'Rejected';
+            }
+            if( $RetCode == "10" ){
+                $postData['payment_status'] = 'Waiting';
+            }
+            else{
+                $code = substr($RetCode, 0,1);
+                if( $code == 1 ){
+                    $postData['payment_status'] = 'Rejected';
+                }
+                else{
+                    $postData['payment_status'] = 'Completed';
+                }
+
+                if( $postData['payment_status'] == 'Completed' ){
+
+                    $presentation_type = str_replace(" ", "-", $item['presentation_type']);
+                    if( $presentation_type == 'Attend-the-conference-only' ){
+                        $mail = new Mailer();
+                        $mail->sendThenkYou( array(
+                            'title' => 'The International Conference on Agriculture and Natural Resources 2018',
+                            'name' => 'Anres Conference 2018',
+                            'email' => $item['email'],
+                            'fullname' => $item['fullname']
+                        ));
+                    }
+                    else{
+                        $password = mt_rand(100000, 999999);
+
+                        $postUser['username'] = $PSourceID;
+                        $postUser['uid'] = $PSourceID;
+                        $postUser['password'] = $this->fn->q('password')->PasswordHash($password);
+                        $postUser['permission'] = 'user';
+
+                        $this->model->load('users')->insert($postData);
+
+                        $mail = new Mailer();
+                        $mail->sendConfirm( array(
+                            'title' => 'The International Conference on Agriculture and Natural Resources 2018',
+                            'name' => 'Anres Conference 2018',
+                            'email' => $item['email'],
+                            'fullname' => $item['fullname'],
+                            'submission_type' => $item['submission_type'],
+                            'username' => $postData['username'],
+                            'password' => $password
+                        ));
+                    }
+                }
+            }
+
+            $this->model->update($PSourceID, $postData);
+            $arr['url'] = 'http://anresconference2018.org/member';
+        }
+        else{
+            $arr['error'] = 'Not Found Data !';
+        }
+        echo json_encode($arr);
+    }
 }
