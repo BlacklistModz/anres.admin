@@ -1,6 +1,6 @@
 <?php
 
-class prsentation extends Controller {
+class Presentation extends Controller {
 
     public function __construct() {
         parent::__construct();
@@ -33,7 +33,7 @@ class prsentation extends Controller {
       $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
         if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
 
-        $item = $this->model->attend($id);
+        $item = $this->model->types($id);
         if( empty($item) ) $this->error();
 
         $this->view->setData('item', $item);
@@ -45,7 +45,7 @@ class prsentation extends Controller {
 
         $id = isset($_POST["id"]) ? $_POST["id"] : null;
         if( !empty($id) ){
-            $item = $this->model->attend($id);
+            $item = $this->model->types($id);
             if( empty($item) ) $this->error();
         }
 
@@ -59,16 +59,16 @@ class prsentation extends Controller {
             if( !empty($item) ){
                 if( $item['name'] == $postData['types_name'] ) $has_name = false;
             }
-            if( $this->model->is_attend($postData['types_name']) && $has_name ){
+            if( $this->model->is_types($postData['types_name']) && $has_name ){
                 $arr['error']['types_name'] = 'This name have already !';
             }
 
             if( empty($arr['error']) ){
                 if(!empty($id)){
-                    $this->model->updateAttend($id, $postData);
+                    $this->model->updateTypes($id, $postData);
                 }
                 else{
-                    $this->model->insertAttend($postData);
+                    $this->model->insertTypes($postData);
                 }
 
                 $arr['message'] = 'Saved !';
@@ -84,12 +84,12 @@ class prsentation extends Controller {
         $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
         if( empty($id) || empty($this->me) || $this->format!='json' ) $this->error();
 
-        $item = $this->model->attend($id);
+        $item = $this->model->types($id);
         if( empty($item) ) $this->error();
 
         if( !empty($_POST) ){
             if( !empty($item['permit']['del']) ){
-                $this->model->deleteAttend($id);
+                $this->model->deleteTypes($id);
                 $arr['message'] = 'Deleted !';
                 $arr['url'] = 'refresh';
             }
