@@ -6,7 +6,7 @@ class Registration_Model extends Model{
     }
 
     private $_objName = "registration";
-    private $_table = "registration reg LEFT JOIN users u ON reg.uid=u.reg_id";
+    private $_table = "registration reg LEFT JOIN users u ON reg.uid=u.uid";
     private $_field = "reg.*, u.username, u.email AS user_email, u.id AS user_id";
 
     public function insert(&$data){
@@ -100,6 +100,9 @@ class Registration_Model extends Model{
         $data['fullname'] = $data['firstname'].' '.$data['lastname'];
         $data['payment_status_arr'] = $this->getPaymentStatus($data['payment_status']);
     	return $data;
+    }
+    public function is_email($text){
+        return $this->db->count($this->_objName,"email=:text", array(":text"=>$text));
     }
 
 	#attend
