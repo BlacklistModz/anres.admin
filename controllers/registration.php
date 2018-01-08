@@ -369,7 +369,7 @@ class Registration extends Controller {
         echo json_encode($arr);
     }
 
-    public function comfirm_payment(){
+    public function confirm_payment(){
         $PSourceID = isset($_REQUEST["PSourceID"]) ? $_REQUEST["PSourceID"] : null;
         $Currency = isset($_REQUEST["Currency"]) ? $_REQUEST["Currency"] : null;
         $TotAmount = isset($_REQUEST["TotAmount"]) ? $_REQUEST["TotAmount"] : null;
