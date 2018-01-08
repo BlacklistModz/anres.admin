@@ -7,26 +7,27 @@ class Registration extends Controller {
     }
 
     public function index($id=null){
-    	$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+        if( empty($this->me) ) $this->error();
+        $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
 
         $this->view->setPage('on', 'registration');
         $this->view->setPage('title', 'Registration');
 
-    	if( !empty($id) ){
+        if( !empty($id) ){
             $this->error();
-    	}
-    	else{
-    		if( $this->format=='json' ){
-    			$this->view->setData('results', $this->model->lists());
-    			$render = "registration/lists/json";
-    		}
-    		else{
+        }
+        else{
+            if( $this->format=='json' ){
+                $this->view->setData('results', $this->model->lists());
+                $render = "registration/lists/json";
+            }
+            else{
                 $this->view->setData('country', $this->model->country());
                 $this->view->setData('paymentStatus', $this->model->paymentStatus());
-    			$render = "registration/lists/display";
-    		}
-    	}
-    	$this->view->render($render);
+                $render = "registration/lists/display";
+            }
+        }
+        $this->view->render($render);
     }
     public function add(){
         if( empty($this->me) ) $this->error();
@@ -109,28 +110,38 @@ class Registration extends Controller {
             $attend = $this->model->getAttend($postData['attend_type']);
             $presentation = $this->model->load('presentation')->getPresentation($postData['presentation_type']);
 
-            if( !empty($attend['is_student']) && empty($item['path_std']) ){
-                if( empty($_FILES["stu_card"]) ){
-                    $arr['error']['stu_card'] = 'กรุณาเลือกไฟล์สำหรับอัพโหลด Student Card';
-                }
-                else{
-                    /* CHECK SIZE 2MB */
-                    if( $_FILES['stu_card']['size'] > 2100000 ){
-                        $arr['error']['stu_card'] = 'ขนาดไฟล์ต้องไม่เกิน 2MB (เมกะไบต์)';
+            if( empty($_POST["stu_card"]) ){
+                if( !empty($attend['is_student']) && empty($item['path_std']) ){
+                    if( empty($_FILES["stu_card"]) ){
+                        $arr['error']['stu_card'] = 'กรุณาเลือกไฟล์สำหรับอัพโหลด Student Card';
+                    }
+                    else{
+                        /* CHECK SIZE 2MB */
+                        if( $_FILES['stu_card']['size'] > 2100000 ){
+                            $arr['error']['stu_card'] = 'ขนาดไฟล์ต้องไม่เกิน 2MB (เมกะไบต์)';
+                        }
                     }
                 }
             }
+            else{
+                $postData['stu_card'] = $_POST["stu_card"];
+            }
 
-            if( !empty($attend['is_mou']) && empty($item['path_mou']) ){
-                if( empty($_FILES["mou_doc"]) ){
-                    $arr['error']['mou_doc'] = 'กรุณาเลือกไฟล์สำหรับอัพโหลด MOU Document';
-                }
-                else{
-                    /* CHECK SIZE 2MB */
-                    if( $_FILES['mou_doc']['size'] > 2100000 ){
-                        $arr['error']['mou_doc'] = 'ขนาดไฟล์ต้องไม่เกิน 2MB (เมกะไบต์)';
+            if( empty($_POST["mou_doc"]) ){
+                if( !empty($attend['is_mou']) && empty($item['path_mou']) ){
+                    if( empty($_FILES["mou_doc"]) ){
+                        $arr['error']['mou_doc'] = 'กรุณาเลือกไฟล์สำหรับอัพโหลด MOU Document';
+                    }
+                    else{
+                        /* CHECK SIZE 2MB */
+                        if( $_FILES['mou_doc']['size'] > 2100000 ){
+                            $arr['error']['mou_doc'] = 'ขนาดไฟล์ต้องไม่เกิน 2MB (เมกะไบต์)';
+                        }
                     }
                 }
+            }
+            else{
+                $postData['mou_doc'] = $_POST["mou_doc"];
             }
 
             if( !empty($presentation['presentation']) ){
@@ -148,6 +159,8 @@ class Registration extends Controller {
             else{
                 $postData['payment_type'] = $_POST["payment_type"];
             }
+
+            if( !empty($_POST) )
 
             if( empty($arr['error']) ){
                 if( !empty($id) ){
