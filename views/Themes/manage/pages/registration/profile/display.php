@@ -14,7 +14,7 @@
 				$a[] = array('key'=>'presentation_type', 'label'=>'Presentation type', 'icon'=>'desktop');
 				$a[] = array('key'=>'submission_type', 'label'=>'Submission type', 'icon'=>'file');
 				$a[] = array('key'=>'created', 'label'=>'Registered date', 'icon'=>'registered');
-				$a[] = array('key'=>'email', 'label'=>'E-mail', 'icon'=>'send');
+				$a[] = array('key'=>'email', 'label'=>'E-mail', 'icon'=>'envelope-o');
 
 				foreach ($a as $key => $value) {
 					if( empty($this->item[$value['key']]) ) continue;
@@ -38,6 +38,25 @@
 		</div>
 		<div class="uiBoxWhite pam mtm">
 			<h3 class="fwb"><i class="icon-file-text-o"></i> Presentation</h3>
+			<ul>
+				<li class="mtm"><span class="fwb">Title : </span><?= !empty($this->item['presentation_title']) ? $this->item['presentation_title'] : "-" ?></li>
+				<li class="mtm"><span class="fwb">Descreption : </span>
+					<div class="post-content editor-text"><?= !empty($this->item['presentation_desc']) ? $this->item['presentation_desc'] : "-" ?></div>
+				</li>
+				<li>
+					<?php 
+					if( !empty($this->item['presentation_filename']) ){
+						echo '<a href="'.$this->item['presentation_path'].'" class="btn btn-blue" target="_blank">Download as '.$this->item['presentation_filename'].'</a>';
+					}
+					if( !empty($this->item['presentation_url']) ){
+						echo '<a href="'.$this->item['presentation_url'].'" target="_blank" class="btn btn-blue">Download Full Article</a>';
+					}
+					?>
+				</li>
+			</ul>
+		</div>
+		<div class="uiBoxWhite pam mtm">
+			<h3 class="fwb"><i class="icon-send"></i> Send Mail</h3>
 		</div>
 	</div>
 </div>

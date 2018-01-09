@@ -436,7 +436,7 @@ class Registration extends Controller {
                         $postUser['password'] = $this->fn->q('password')->PasswordHash($password);
                         $postUser['permission'] = 'user';
 
-                        $this->model->load('users')->insert($postData);
+                        $this->model->load('users')->insert($postUser);
 
                         $mail = new Mailer();
                         $mail->sendConfirm( array(
@@ -445,7 +445,7 @@ class Registration extends Controller {
                             'email' => $item['email'],
                             'fullname' => $item['fullname'],
                             'submission_type' => $item['submission_type'],
-                            'username' => $postData['username'],
+                            'username' => $postUser['username'],
                             'password' => $password
                         ));
                     }

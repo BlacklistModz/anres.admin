@@ -2371,6 +2371,8 @@ if ( typeof Object.create !== 'function' ) {
 			self.$presentation = self.$elem.find('input[name=presentation_type]');
 			self.$sub = self.$elem.find('#submission');
 			self.$pay = self.$elem.find('#payment_type');
+			self.$fieldTitle = self.$elem.find('#presentation_title_fieldset');
+			self.$title = self.$elem.find('input[name=presentation_title]');
 
 			// self.$submission = self.options.submission;
 			self.$submission = self.$elem.find('#submission_type_fieldset');
@@ -2397,6 +2399,7 @@ if ( typeof Object.create !== 'function' ) {
 
 			if( self.currPresentation != '' ){
 				self.setSubmission();
+				self.setTitle();
 			}
 		},
 		Event: function(){
@@ -2408,6 +2411,7 @@ if ( typeof Object.create !== 'function' ) {
 
 			self.$presentation.click(function(){
 				self.setSubmission();
+				self.setTitle();
 			});
 		},
 		setUpload: function(){
@@ -2486,6 +2490,17 @@ if ( typeof Object.create !== 'function' ) {
 					self.$pay.find("[data-id=1]").remove();
 				}
 			});
+		},
+		setTitle: function(){
+			var self = this;
+			var presentation = self.$elem.find('input[name=presentation_type]:checked').val();
+			$.get( Event.URL + "registration/getSubmission/"+presentation , function(res){
+				self.$fieldTitle.addClass('hidden_elem');
+				self.$title.val();
+				if( res.presentation == 1 ){
+					self.$fieldTitle.removeClass('hidden_elem');
+				}
+			},'json');
 		}
 	}
 	$.fn.formRegistation = function( options ) {
