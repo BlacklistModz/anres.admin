@@ -191,7 +191,12 @@ class Controller {
             $this->setPagePermit();
         }
         else{
-            $this->login();
+            if( $this->pathName=='registration' ){
+
+            }
+            else{
+                $this->login();
+            }
         }
         // else if( $this->pathName=='cms' || $this->pathName=='student' ){
         //     $this->login();

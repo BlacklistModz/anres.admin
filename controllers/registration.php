@@ -124,7 +124,7 @@ class Registration extends Controller {
                 }
             }
             else{
-                $postData['stu_card'] = $_POST["stu_card"];
+                $postData['path_std'] = $_POST["stu_card"];
             }
 
             if( empty($_POST["mou_doc"]) ){
@@ -141,7 +141,7 @@ class Registration extends Controller {
                 }
             }
             else{
-                $postData['mou_doc'] = $_POST["mou_doc"];
+                $postData['path_mou'] = $_POST["mou_doc"];
             }
 
             if( !empty($presentation['presentation']) ){
@@ -389,7 +389,7 @@ class Registration extends Controller {
         echo json_encode($arr);
     }
 
-    public function confirm_payment(){
+    public function confirmpayment(){
         $PSourceID = isset($_REQUEST["PSourceID"]) ? $_REQUEST["PSourceID"] : null;
         $Currency = isset($_REQUEST["Currency"]) ? $_REQUEST["Currency"] : null;
         $TotAmount = isset($_REQUEST["TotAmount"]) ? $_REQUEST["TotAmount"] : null;
