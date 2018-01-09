@@ -2459,7 +2459,7 @@ if ( typeof Object.create !== 'function' ) {
 							)
 						);
 						if( obj.id == self.currSubmission ){
-							self.$sub.find('input[submission_type]').prop('checked', 1);
+							self.$sub.find('input[name=submission_type]').prop('checked', 1);
 						}
 					});
 				}

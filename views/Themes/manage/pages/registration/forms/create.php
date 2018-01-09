@@ -180,6 +180,12 @@ $form 	->field("payment_type")
 		->attr('data-name', 'payment')
 		->text( '<ul id="payment_type"></ul>' );
 
+$form 	->field("presentation_title")
+		->label('<span class="fwb" style="color:black;">Presentation Title*</span>')
+		->addClass('inputtext')
+		->autocomplete('off')
+		->value( !empty($this->item['presentation_title']) ? $this->item['presentation_title'] : '' );
+
 $options = $this->fn->stringify( array(
 			'submission' => $this->submission,
 			'payment' => $this->payment,
