@@ -97,7 +97,7 @@ class Registration_Model extends Model{
     }
     public function convert($data , $options=array()){
         $data['permit']['del'] = true;
-        $data['fullname'] = $data['firstname'].' '.$data['lastname'];
+        $data['fullname'] = $data['title'].$data['firstname'].' '.$data['lastname'];
         $data['payment_status_arr'] = $this->getPaymentStatus($data['payment_status']);
         $data['paper'] = $this->listsFile($data['uid']);
     	return $data;

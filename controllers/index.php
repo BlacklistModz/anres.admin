@@ -7,8 +7,7 @@ class Index extends Controller {
     }
 
     public function index() {
-        $this->view->setPage('on', 'dashboard');
-        $this->view->render("registration/lists/display");
+        header('location:'.URL.'registration');
     }
 
     public function search($param=null) {

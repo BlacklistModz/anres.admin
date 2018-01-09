@@ -1,6 +1,6 @@
 var __ui = {
 	anchorBucketed: function (data) {
-		
+
 		var anchor = $('<div>', {class: 'anchor ui-bucketed clearfix'});
 		var avatar = $('<div>', {class: 'avatar lfloat no-avatar mrm'});
 		var content = $('<div>', {class: 'content'});
@@ -39,7 +39,7 @@ var __ui = {
 		if( data.category ){
 			massages.append( $('<div>', {class: 'category'}).html( data.category ) );
 		}
-		
+
 		if( data.subtext ){
 			massages.append( $('<div>', {class: 'subtext'}).html( data.subtext ) );
 		}
@@ -53,14 +53,14 @@ var __ui = {
         return anchor;
 	},
 	anchorFile: function ( data ) {
-		
+
 		if( data.type=='jpg' ){
 			icon = '<div class="initials"><i class="icon-file-image-o"></i></div>';
 		}
 		else{
 			icon = '<div class="initials"><i class="icon-file-text-o"></i></div>';
 		}
-		
+
 		var anchor = $('<div>', {class: 'anchor clearfix'});
 		var avatar = $('<div>', {class: 'avatar lfloat no-avatar mrm'});
 		var content = $('<div>', {class: 'content'});
@@ -210,16 +210,16 @@ var Calendar = {
                     if(selectedTime==activeTime){
                     	active +=" selected";
                     }
-                    
+
 	            } else {
-	      			
+
 	      			active = "noday"; // Prev/Next month dates are non-selectable by default
                     n = (n <= 0) ? p : ((p - lastDay) - prevDateLastDay);
 
 	      			if (y > 0 && x == 0) show = false;
 	            }
 
-	            
+
 	            row.push({
 	            	text: n,
 	            	date: activeDate,
@@ -237,7 +237,7 @@ var Calendar = {
 
 	    } // end for row
 	    self.lists = lists;
-	 	
+
 	}
 }
 
@@ -263,7 +263,7 @@ var Datelang = {
 		lang = lang||this.lang||'th';
 
 		var _DS = [', ', ', '];
-		if( lang=='th' ){ 
+		if( lang=='th' ){
 			var _DS = ['ที่ ', ' '];
 		}
 
@@ -310,7 +310,7 @@ var Datelang = {
 			en: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
 			th: ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."]
 		}
-		
+
 	},
 
 	_month: {
@@ -324,7 +324,7 @@ var Datelang = {
 
 			th: ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."]
 		}
-		
+
 	}
 };
 var uiLayer = {
@@ -345,7 +345,7 @@ var uiLayer = {
 		self.$elem = $('<div/>', {class: 'uiContextualLayerPositioner uiLayer'});
 		self.$layer = $('<div/>', {class: 'uiContextualLayer'}).html( self.$content );
 		self.$parent = options.$parent || $(window);
-		 
+
 		self.options = options;
 
 		self.is_open = false;
@@ -367,7 +367,7 @@ var uiLayer = {
 		if( self.options.is_auto_position ){
 			self.searchPosition();
 			$( window ).resize( function(){
-				
+
 				self.config();
 				self.searchPosition();
 				self.resize();
@@ -431,7 +431,7 @@ var uiLayer = {
 				if( self.options.$elem ){
 					self.left += self.options.$elem.outerWidth();
 				}
-				
+
 				if(self.options.pointer){
 					self.left += 44;
 				}
@@ -441,7 +441,7 @@ var uiLayer = {
 
 			}
 		}
-		
+
 		// set Height
 		var maxHeight = self.$parent.height();
 		var needHeight = ( self.top + self.$content.height() );
@@ -460,7 +460,7 @@ var uiLayer = {
 		else if(self.$layer.hasClass('uiToggleFlyoutAbove')){
 			self.$layer.removeClass('uiToggleFlyoutAbove')
 		}
-		
+
 	}
 };
 
@@ -808,8 +808,8 @@ var Event = {
 
 
 		if( options.auto ){
-			
-			self.logHide( $item );			
+
+			self.logHide( $item );
 			return false;
 		}
 
@@ -831,7 +831,7 @@ var Event = {
 			$el.animate( {
 				left: '-=' + 240
 			}, 250, function () {
-				
+
 				$el.hide(100);
 				setTimeout(function () {
 					$el.remove();
@@ -860,7 +860,7 @@ var Event = {
 		$.each($msg.find('.message'), function () {
 			self.logHide( $(this), 1 );
 
-			
+
 		} );
 	}
 };
@@ -897,7 +897,7 @@ var PHP = {
 
 		d = date.getDate();
 		d = d < 10 ? '0'+d:d;
-		return date.getFullYear() + '-' + m + '-' + d;	
+		return date.getFullYear() + '-' + m + '-' + d;
 	}
 }
 
@@ -910,7 +910,7 @@ $(function () {
 
 	/**/
 	/* Set Form */
-	/**/ 
+	/**/
 	$('body').delegate('form.js-submit-form','submit',function(e){
 		var $form = $(this);
 		e.preventDefault();

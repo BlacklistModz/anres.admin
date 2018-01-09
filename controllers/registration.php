@@ -14,7 +14,11 @@ class Registration extends Controller {
         $this->view->setPage('title', 'Registration');
 
         if( !empty($id) ){
-            $this->error();
+            $item = $this->model->get($id);
+            if( empty($item) ) $this->error();
+
+            $this->view->setData('item', $item);
+            $render = "registration/profile/display";
         }
         else{
             if( $this->format=='json' ){
