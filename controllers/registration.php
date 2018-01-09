@@ -151,6 +151,13 @@ class Registration extends Controller {
                 else{
                     $postData['submission_type'] = $_POST["submission_type"];
                 }
+
+                if( empty($_POST["presentation_title"]) ){
+                    $arr['error']['presentation_title'] = 'กรุณากรอก Presentation Title';
+                }
+                else{
+                    $postData['presentation_title'] = $_POST["presentation_title"];
+                }
             }
 
             if( empty($_POST["payment_type"]) ){
