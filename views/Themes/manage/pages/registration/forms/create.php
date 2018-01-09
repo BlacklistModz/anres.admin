@@ -107,21 +107,33 @@ $form 	->field("attend_type")
 		->attr('data-name', 'attend')
 		->text( $attend );
 
+$stu = '';
+$stu_download = '';
+if( !empty($this->item['path_std']) ){
+	$stu = '( <a href="'.UPLOADS.'/file/'.$this->item['path_std'].'" target="_blank">DOWNLOAD</a> )';
+	$stu_download = '<a href="'.UPLOADS.'/file/'.$this->item['path_std'].'" target="_blank" class="btn btn-small btn-green rfloat">DOWNLOAD</a>';
+}
 $form 	->field("stu_card")
-		->label('<span class="fwb" style="color:black;">Please upload your student card*</span>')
+		->label('<span class="fwb" style="color:black;">Please upload your student card* '.$stu.'</span>')
 		->attr('data-name', 'stu-card')
 		->addClass('inputtext')
 		->autocomplete('off')
 		->type('file')
-		->note('(Please upload only PDF file(.pdf) and file size must not more than 2MB.)');
+		->note('(Please upload only PDF file(.pdf) and file size must not more than 2MB.)'+$stu_download);
 
+$mou = '';
+$mou_download = '';
+if( !empty($this->item['path_mou']) ){
+	$mou = '( <a href="'.UPLOADS.'/file/'.$this->item['path_mou'].'">DOWNLOAD</a> )';
+	$mou_download = '<a href="'.UPLOADS.'/file/'.$this->item['path_mou'].'" target="_blank" class="btn btn-small btn-green rfloat">DOWNLOAD</a>';
+}
 $form 	->field("mou_doc")
-		->label('<span class="fwb" style="color:black;">Please upload your MOU Document*</span>')
+		->label('<span class="fwb" style="color:black;">Please upload your MOU Document* '.$mou.'</span>')
 		->attr('data-name', 'mou_doc')
 		->addClass('inputtext')
 		->autocomplete('off')
 		->type('file')
-		->note('(Please upload only PDF file(.pdf) and file size must not more than 2MB.)');
+		->note('(Please upload only PDF file(.pdf) and file size must not more than 2MB.)'+$mou_download);
 
 $types = '';
 foreach ($this->types as $key => $value) {

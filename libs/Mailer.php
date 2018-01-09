@@ -41,4 +41,19 @@ class Mailer
 
 		return $this->mail->Send();
 	}
+
+	public function sendConfirm($data){
+		$this->mail->Subject = $data['title'];
+		$this->mail->MsgHTML( $this->from->sendConfirm( $data ) );
+		$this->mail->AddAddress( $data['email'], $data['name'] );
+
+		return $this->mail->Send();
+	}
+	public function sendThenkYou($data){
+		$this->mail->Subject = $data['title'];
+		$this->mail->MsgHTML( $this->from->sendThenkYou( $data ) );
+		$this->mail->AddAddress( $data['email'], $data['name'] );
+
+		return $this->mail->Send();
+	}
 }

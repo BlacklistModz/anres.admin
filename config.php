@@ -37,6 +37,12 @@ define('LANG', 'th');
 define('COOKIE_KEY_MEMBER', 'mid');
 define('COOKIE_KEY_ADMIN', 'u_id');
 
+// Email
+define('MAIL_HOST', "mail.customer-mail.net");
+define('MAIL_NAME', 'anresconference2018.org');
+define('MAIL_USER', "info@customer-mail.net");
+define('MAIL_PASS', "YU1JNa0GdX4foPt");
+
 // The sitewide hashkey, do not change this because its used for passwords!
 // This is for other hash keys... Not sure yet
 define('HASH_GENERAL_KEY', 'MixitUp200');

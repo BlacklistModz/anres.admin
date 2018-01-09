@@ -7,26 +7,27 @@ class Registration extends Controller {
     }
 
     public function index($id=null){
-    	$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+        if( empty($this->me) ) $this->error();
+        $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
 
         $this->view->setPage('on', 'registration');
         $this->view->setPage('title', 'Registration');
 
-    	if( !empty($id) ){
+        if( !empty($id) ){
             $this->error();
-    	}
-    	else{
-    		if( $this->format=='json' ){
-    			$this->view->setData('results', $this->model->lists());
-    			$render = "registration/lists/json";
-    		}
-    		else{
+        }
+        else{
+            if( $this->format=='json' ){
+                $this->view->setData('results', $this->model->lists());
+                $render = "registration/lists/json";
+            }
+            else{
                 $this->view->setData('country', $this->model->country());
                 $this->view->setData('paymentStatus', $this->model->paymentStatus());
-    			$render = "registration/lists/display";
-    		}
-    	}
-    	$this->view->render($render);
+                $render = "registration/lists/display";
+            }
+        }
+        $this->view->render($render);
     }
     public function add(){
         if( empty($this->me) ) $this->error();
@@ -109,28 +110,38 @@ class Registration extends Controller {
             $attend = $this->model->getAttend($postData['attend_type']);
             $presentation = $this->model->load('presentation')->getPresentation($postData['presentation_type']);
 
-            if( !empty($attend['is_student']) && empty($item['path_std']) ){
-                if( empty($_FILES["stu_card"]) ){
-                    $arr['error']['stu_card'] = 'กรุณาเลือกไฟล์สำหรับอัพโหลด Student Card';
-                }
-                else{
-                    /* CHECK SIZE 2MB */
-                    if( $_FILES['stu_card']['size'] > 2100000 ){
-                        $arr['error']['stu_card'] = 'ขนาดไฟล์ต้องไม่เกิน 2MB (เมกะไบต์)';
+            if( empty($_POST["stu_card"]) ){
+                if( !empty($attend['is_student']) && empty($item['path_std']) ){
+                    if( empty($_FILES["stu_card"]) ){
+                        $arr['error']['stu_card'] = 'กรุณาเลือกไฟล์สำหรับอัพโหลด Student Card';
+                    }
+                    else{
+                        /* CHECK SIZE 2MB */
+                        if( $_FILES['stu_card']['size'] > 2100000 ){
+                            $arr['error']['stu_card'] = 'ขนาดไฟล์ต้องไม่เกิน 2MB (เมกะไบต์)';
+                        }
                     }
                 }
             }
+            else{
+                $postData['stu_card'] = $_POST["stu_card"];
+            }
 
-            if( !empty($attend['is_mou']) && empty($item['path_mou']) ){
-                if( empty($_FILES["mou_doc"]) ){
-                    $arr['error']['mou_doc'] = 'กรุณาเลือกไฟล์สำหรับอัพโหลด MOU Document';
-                }
-                else{
-                    /* CHECK SIZE 2MB */
-                    if( $_FILES['mou_doc']['size'] > 2100000 ){
-                        $arr['error']['mou_doc'] = 'ขนาดไฟล์ต้องไม่เกิน 2MB (เมกะไบต์)';
+            if( empty($_POST["mou_doc"]) ){
+                if( !empty($attend['is_mou']) && empty($item['path_mou']) ){
+                    if( empty($_FILES["mou_doc"]) ){
+                        $arr['error']['mou_doc'] = 'กรุณาเลือกไฟล์สำหรับอัพโหลด MOU Document';
+                    }
+                    else{
+                        /* CHECK SIZE 2MB */
+                        if( $_FILES['mou_doc']['size'] > 2100000 ){
+                            $arr['error']['mou_doc'] = 'ขนาดไฟล์ต้องไม่เกิน 2MB (เมกะไบต์)';
+                        }
                     }
                 }
+            }
+            else{
+                $postData['mou_doc'] = $_POST["mou_doc"];
             }
 
             if( !empty($presentation['presentation']) ){
@@ -140,6 +151,13 @@ class Registration extends Controller {
                 else{
                     $postData['submission_type'] = $_POST["submission_type"];
                 }
+
+                if( empty($_POST["presentation_title"]) ){
+                    $arr['error']['presentation_title'] = 'กรุณากรอก Presentation Title';
+                }
+                else{
+                    $postData['presentation_title'] = $_POST["presentation_title"];
+                }
             }
 
             if( empty($_POST["payment_type"]) ){
@@ -148,6 +166,8 @@ class Registration extends Controller {
             else{
                 $postData['payment_type'] = $_POST["payment_type"];
             }
+
+            if( !empty($_POST) )
 
             if( empty($arr['error']) ){
                 if( !empty($id) ){
@@ -366,6 +386,74 @@ class Registration extends Controller {
         }
 
         
+        echo json_encode($arr);
+    }
+
+    public function confirm_payment(){
+        $PSourceID = isset($_REQUEST["PSourceID"]) ? $_REQUEST["PSourceID"] : null;
+        $Currency = isset($_REQUEST["Currency"]) ? $_REQUEST["Currency"] : null;
+        $TotAmount = isset($_REQUEST["TotAmount"]) ? $_REQUEST["TotAmount"] : null;
+        $RetCode = isset($_REQUEST["RetCode"]) ? $_REQUEST["RetCode"] : null;
+
+        $item = $this->model->get($PSourceID);
+        if( !empty($item) ){
+            if( $TotAmount != $item['price'] ){
+                $postData['payment_status'] = 'Rejected';
+            }
+            if( $RetCode == "10" ){
+                $postData['payment_status'] = 'Waiting';
+            }
+            else{
+                $code = substr($RetCode, 0,1);
+                if( $code == 1 ){
+                    $postData['payment_status'] = 'Rejected';
+                }
+                else{
+                    $postData['payment_status'] = 'Completed';
+                }
+
+                if( $postData['payment_status'] == 'Completed' ){
+
+                    $presentation_type = str_replace(" ", "-", $item['presentation_type']);
+                    if( $presentation_type == 'Attend-the-conference-only' ){
+                        $mail = new Mailer();
+                        $mail->sendThenkYou( array(
+                            'title' => 'The International Conference on Agriculture and Natural Resources 2018',
+                            'name' => 'Anres Conference 2018',
+                            'email' => $item['email'],
+                            'fullname' => $item['fullname']
+                        ));
+                    }
+                    else{
+                        $password = mt_rand(100000, 999999);
+
+                        $postUser['username'] = $PSourceID;
+                        $postUser['uid'] = $PSourceID;
+                        $postUser['password'] = $this->fn->q('password')->PasswordHash($password);
+                        $postUser['permission'] = 'user';
+
+                        $this->model->load('users')->insert($postData);
+
+                        $mail = new Mailer();
+                        $mail->sendConfirm( array(
+                            'title' => 'The International Conference on Agriculture and Natural Resources 2018',
+                            'name' => 'Anres Conference 2018',
+                            'email' => $item['email'],
+                            'fullname' => $item['fullname'],
+                            'submission_type' => $item['submission_type'],
+                            'username' => $postData['username'],
+                            'password' => $password
+                        ));
+                    }
+                }
+            }
+
+            $this->model->update($PSourceID, $postData);
+            $arr['url'] = 'http://anresconference2018.org/member';
+        }
+        else{
+            $arr['error'] = 'Not Found Data !';
+        }
         echo json_encode($arr);
     }
 }

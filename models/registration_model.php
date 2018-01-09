@@ -86,7 +86,7 @@ class Registration_Model extends Model{
     }
     public function get($id, $options=array()){
 
-        $sth = $this->db->prepare("SELECT {$this->_field} FROM {$this->_table} WHERE uid=:id LIMIT 1");
+        $sth = $this->db->prepare("SELECT {$this->_field} FROM {$this->_table} WHERE reg.uid=:id LIMIT 1");
         $sth->execute( array(
             ':id' => $id
         ) );
@@ -99,6 +99,7 @@ class Registration_Model extends Model{
         $data['permit']['del'] = true;
         $data['fullname'] = $data['firstname'].' '.$data['lastname'];
         $data['payment_status_arr'] = $this->getPaymentStatus($data['payment_status']);
+        $data['paper'] = $this->listsFile($data['uid']);
     	return $data;
     }
     public function is_email($text){
@@ -195,5 +196,18 @@ class Registration_Model extends Model{
         $a[] = array('id'=>'Full article', 'name'=>'Full article');
 
         return $a;
+    }
+
+    #FILE
+    public function listsFile($uid){
+        $data = array();
+        $results = $this->db->query("SELECT * FROM papers WHERE paper_uid = {$uid} ORDER BY paper_seq ASC");
+        foreach ($results as $key => $value) {
+            $value = $this->cut("paper_", $value);
+
+            $data[$value['seq']] = $value;
+            $data[$value['seq']]['path'] = UPLOADS.'paper/'.$value['file'];
+        }
+        return $data;
     }
 }
