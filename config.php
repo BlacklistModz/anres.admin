@@ -32,10 +32,9 @@ define('IMAGES', URL . 'public/images/');
 define('AVATAR', URL . 'public/images/avatar/');
 define('UPLOADS', URL . "public/uploads/");
 
-
 define('LANG', 'th');
 define('COOKIE_KEY_MEMBER', 'mid');
-define('COOKIE_KEY_ADMIN', 'u_id');
+define('COOKIE_KEY_ADMIN', 'a_id');
 
 // Email
 define('MAIL_HOST', "mail.customer-mail.net");
@@ -52,3 +51,8 @@ define('HASH_PASSWORD_KEY', 'catsFLYhigh2000miles');
 
 define('RECAPTCHA_SITE_KEY', '6LfPBxMTAAAAALX9MpBvvR2sjCKZidyhU-YXYHCY');
 define('RECAPTCHA_SECRET_KEY', '6LfPBxMTAAAAACav7aO-axpuFK6r_fDphq6gAs4i');
+
+/* PATH CENTER */
+define('WWW_UPLOADS_',  "..". DS . 'uploads' . DS);
+define('WWW_UPLOADS_PAPER', "..". DS . "anres.users" . DS . "public". DS. 'uploads' . DS . "paper");
+define('UPLOADS_PAPER', 'http://localhost/anres.users/public/uploads/paper/');

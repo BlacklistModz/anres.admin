@@ -63,6 +63,12 @@ class Registration_Model extends Model{
             $where_arr[":payment_status"] = $options["payment_status"];
         }
 
+        if( !empty($options["permission"]) ){
+            $where_str .= !empty($where_str) ? " AND " : "";
+            $where_str .= "u.permission=:permission";
+            $where_arr[":permission"] = $options["permission"];
+        }
+
         $arr['total'] = $this->db->count($this->_table, $where_str, $where_arr);
 
         $where_str = !empty($where_str) ? "WHERE {$where_str}":'';
@@ -100,6 +106,11 @@ class Registration_Model extends Model{
         $data['fullname'] = $data['title'].$data['firstname'].' '.$data['lastname'];
         $data['payment_status_arr'] = $this->getPaymentStatus($data['payment_status']);
         $data['paper'] = $this->listsFile($data['uid']);
+
+        if( !empty($data['presentation_file']) ){
+            $data['presentation_path'] = UPLOADS_PAPER.$data['presentation_file'];
+        }
+
     	return $data;
     }
     public function is_email($text){

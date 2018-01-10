@@ -22,7 +22,7 @@ class Registration extends Controller {
         }
         else{
             if( $this->format=='json' ){
-                $this->view->setData('results', $this->model->lists());
+                $this->view->setData('results', $this->model->lists( array('permission'=>'user') ));
                 $render = "registration/lists/json";
             }
             else{
@@ -459,5 +459,40 @@ class Registration extends Controller {
             $arr['error'] = 'Not Found Data !';
         }
         echo json_encode($arr);
+    }
+
+    public function sendmail($id=null, $type=null){
+        $id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : $id;
+        $type = isset($_REQUEST["type"]) ? $_REQUEST["type"] : $type;
+
+        if( empty($id) || empty($type) || empty($this->me) || $this->format!='json' ) $this->error();
+
+        $item = $this->model->get($id);
+        if( empty($item) ) $this->error();
+
+        if( !empty($_POST) ){
+           $mail = new Mailer();
+           $mail->sendType( array(
+                'title' => 'The International Conference on Agriculture and Natural Resources 2018',
+                'name' => 'Anres Conference 2018',
+                'email' => $item['email'],
+                'fullname' => $item['fullname'],
+                'type'=> $type,
+                'submission' => $item['submission_type'],
+                'presentation' => $item['presentation_type'],
+                'presentation_title' => $item['presentation_title']
+            ));
+
+           $arr['message'] = 'ส่ง Email เรียบร้อยแล้ว';
+           $arr['url'] = 'refresh';
+
+           echo json_encode($arr);
+        }
+        else{
+            $this->view->setData('type', $type);
+            $this->view->setData('item', $item);
+            $this->view->setPage('path', 'Forms/mail');
+            $this->view->render('send');
+        }
     }
 }
