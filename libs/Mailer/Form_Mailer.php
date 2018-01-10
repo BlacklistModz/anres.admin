@@ -156,7 +156,7 @@ class Form_Mailer
  		<p></p>
  		Dear '.$data['fullname'].',
  		<p></p>
- 		<p>We appreciated your interest in “International Conference of Agriculture and Natural Resources (ANRES 2018)” on 26-28 April 2018.  Your payment has been received.<b>You can now upload '.$data['submission_type'].' at http://www.anresconference2018.org/member</b> using</p>
+ 		<p>We appreciated your interest in “International Conference of Agriculture and Natural Resources (ANRES 2018)” on 26-28 April 2018.  Your payment has been received.<b>You can now upload '.$data['submission_type'].' at <a href="http://www.anresconference2018.org/member">http://www.anresconference2018.org/member</a></b> using</p>
 
  		<p><b>Account: '.$data['username'].'<br/>
  		Password: '.$data['password'].'</b></p>
@@ -193,5 +193,52 @@ class Form_Mailer
  		<p></p>
  		<p>Assoc. Prof. Dr. Thongchai Suwonsichon,<br/>
  		Director of Kasetsart University Research and Development Institute</p>';
+ 	}
+
+ 	public function consider($data){
+ 		return '<p><b>Kasetsart University Research and Development Institute,<br/>
+ 		Kasetsart University, Bangkok 10900, Thailand. <br/>
+ 		Tel. 662 5795548, Fax. 662 5611474<br/>
+ 		E-mail: anresconference@ku.th</b></p>
+ 		<p></p>
+ 		<p>Date: '.date("d/m/Y").'</p>
+ 		<p></p>
+ 		<p>Title: '.$data['title'].'</p>
+ 		<p></p>
+ 		<p>Dear '.$data['fullname'].',</p>
+ 		<p></p>
+ 		<p>Thank you for submitting your '.$data['submission'].' for presentation in International Conference of Agriculture and Natural Resources (ANRES 2018). We will proceed your '.$data['submission'].' to the review process.</p>
+ 		<p></p>
+ 		<p>Yours Sincerely,</p>
+ 		<p></p>
+ 		<p>Secretariat of ANRES 2018</p>
+ 		';
+ 	}
+ 	public function confirm($data){
+ 		return '<p><b>Kasetsart University Research and Development Institute,<br/>
+ 		Kasetsart University, Bangkok 10900, Thailand. <br/>
+ 		Tel. 662 5795548, Fax. 662 5611474<br/>
+ 		E-mail: anresconference@ku.th</b></p>
+ 		<p></p>
+ 		<p>Date: '.date("d/m/Y").'</p>
+ 		<p></p>
+ 		<p>Title: '.$data['title'].'</p>
+ 		<p></p>
+ 		<p>Dear '.$data['fullname'].',</p>
+ 		<p></p>
+ 		<p>On behalf of International Conference of Agriculture and Natural Resources (ANRES 2018)Committee, I am very pleased to inform you that your '.$data['submission'].'</p>
+ 		<p>title “'.$data['presentation_title'].'” was accepted for '.$data['presentation'].' presentation. You can login to http://anresconference2018.org for download Invitation letter and others documents.</p>
+ 		<p>Please see more information for presentation at <a href="http://anresconference2018.org/">http://anresconference2018.org/</a>.
+ 		We are looking forward to meeting you. </p>
+ 		<p></p>
+ 		<p>Yours sincerely,</p>
+ 		<p></p>
+ 		<p></p>
+ 		<p>Assoc. Prof. Dr. Thongchai Suwonsichon,
+ 		Director of Kasetsart University Research and Development Institute</p>
+ 		';
+ 	}
+ 	public function evise($data){
+ 		return 'Please use the cover letter <a href="http://anresconference2018.org/download.php">http://anresconference2018.org/download.php</a> and template of manuscript <a href="http://anresconference2018.org/download.php">http://anresconference2018.org/download.php</a> when submit the full manuscript to ANRES at <a href="https://www.journals.elsevier.com/agriculture-and-natural-resources/">https://www.journals.elsevier.com/agriculture-and-natural-resources/</a>';
  	}
 }

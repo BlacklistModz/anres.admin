@@ -13,15 +13,18 @@ if( !empty($this->results['lists']) ){
         // set Name
 
         $upload = '<i class="icon-remove"></i>';
-        if( !empty($item['path_paper']) ){
+        if( !empty($item['presentation_file']) ){
             $upload = '<i class="icon-check"></i>';
         }
-        elseif( !empty($item['path_paper_2']) ){
+        elseif( !empty($item['presentation_url']) ){
             $upload = '<i class="icon-check"></i>';
         }
-        elseif( !empty($item['path_paper_3']) ){
-            $upload = '<i class="icon-check"></i>';
-        }
+        // elseif( !empty($item['path_paper_2']) ){
+        //     $upload = '<i class="icon-check"></i>';
+        // }
+        // elseif( !empty($item['path_paper_3']) ){
+        //     $upload = '<i class="icon-check"></i>';
+        // }
 
         $tr .= '<tr class="'.$cls.'" data-id="'.$item['uid'].'">'.
 
