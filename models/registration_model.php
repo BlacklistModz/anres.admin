@@ -69,6 +69,21 @@ class Registration_Model extends Model{
             $where_arr[":permission"] = $options["permission"];
         }
 
+        if( !empty($options["not_admin"]) ){
+            $where_str .= !empty($where_str) ? " AND " : "";
+            $where_str .= "(u.permission!=:not_admin OR u.permission is null)";
+            $where_arr[":not_admin"] = 'admin';
+        }
+
+        if( isset($_REQUEST["status"]) ){
+            $options["status"] = $_REQUEST["status"];
+        }
+        if( !empty($options["status"]) ){
+            $where_str .= !empty($where_str) ? " AND " : "";
+            $where_str .= "reg.status=:status";
+            $where_arr[":status"] = $options["status"];
+        }
+
         $arr['total'] = $this->db->count($this->_table, $where_str, $where_arr);
 
         $where_str = !empty($where_str) ? "WHERE {$where_str}":'';
@@ -158,6 +173,26 @@ class Registration_Model extends Model{
     }
     public function is_attend($text){
         return $this->db->count("registration_attend", "attend_name=:text", array(":text"=>$text));
+    }
+
+    /**/
+    public function status(){
+        $a[] = array('id'=>'New', 'name'=>'New');
+        $a[] = array('id'=>'Review', 'name'=>'Review');
+        $a[] = array('id'=>'Approved', 'name'=>'Approved');
+        $a[] = array('id'=>'Reject', 'name'=>'Reject');
+
+        return $a;
+    }
+    public function getStatus(){
+        $data = array();
+        foreach ($this->status() as $key => $value) {
+            if( $id == $value['id'] ){
+                $data = $value;
+                break;
+            }
+        }
+        return $data;
     }
 
     /*Payment Status*/

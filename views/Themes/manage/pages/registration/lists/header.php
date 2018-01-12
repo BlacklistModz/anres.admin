@@ -58,6 +58,17 @@
 						?>
 					</select>
 				</li>
+				<li>
+					<label for="status" class="label">Status</label>
+					<select ref="selector" class="inputtext" name="status">
+						<?php 
+						echo '<option value="">-- Select Status --</option>';
+						foreach ($this->status as $key => $value) {
+							echo '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+						}
+						?>
+					</select>
+				</li>
 			</ul>
 			<ul class="rfloat" ref="control">
 				<li class="mt"><form class="form-search" action="#">

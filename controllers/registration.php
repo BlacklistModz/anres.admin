@@ -13,6 +13,8 @@ class Registration extends Controller {
         $this->view->setPage('on', 'registration');
         $this->view->setPage('title', 'Registration');
 
+        $this->view->setData('status', $this->model->status());
+
         if( !empty($id) ){
             $item = $this->model->get($id);
             if( empty($item) ) $this->error();
@@ -22,7 +24,7 @@ class Registration extends Controller {
         }
         else{
             if( $this->format=='json' ){
-                $this->view->setData('results', $this->model->lists( array('permission'=>'user') ));
+                $this->view->setData('results', $this->model->lists( array('not_admin'=>true) ));
                 $render = "registration/lists/json";
             }
             else{
@@ -179,6 +181,7 @@ class Registration extends Controller {
                 }
                 else{
                     $postData['payment_status'] = 'Waiting';
+                    $postData['status'] = 'New';
                     $this->model->insert($postData);
                     $id = $postData['id'];
                 }
@@ -186,21 +189,21 @@ class Registration extends Controller {
                 if( !empty($id) ){
                     if( !empty($_FILES["stu_card"]) ){
                         if( !empty($item['path_std']) ){
-                            @unlink(WWW_UPLOADS."file/".$item['path_std']);
+                            @unlink(WWW_UPLOADS_."file/".$item['path_std']);
                         }
                         $type = strrchr($_FILES["stu_card"]['name'],".");
                         $name_std = 'stu_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
-                        move_uploaded_file($_FILES["stu_card"]["tmp_name"], WWW_UPLOADS."file/".$name_std);
+                        move_uploaded_file($_FILES["stu_card"]["tmp_name"], WWW_UPLOADS_."file/".$name_std);
 
                         $data['path_std'] = $name_std;
                     }
                     if( !empty($_FILES["mou_doc"]) ){
                         if( !empty($item['path_mou']) ){
-                            @unlink(WWW_UPLOADS."file/".$item['path_mou']);
+                            @unlink(WWW_UPLOADS_."file/".$item['path_mou']);
                         }
                         $type = strrchr($_FILES["mou_doc"]['name'],".");
                         $name_mou = 'mou_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
-                        move_uploaded_file($_FILES["mou_doc"]["tmp_name"], WWW_UPLOADS."file/".$name_mou);
+                        move_uploaded_file($_FILES["mou_doc"]["tmp_name"], WWW_UPLOADS_."file/".$name_mou);
 
                         $data['path_mou'] = $name_mou;
                     }
@@ -364,10 +367,10 @@ class Registration extends Controller {
         if( !empty($_FILES["file"]) ){
             $type = strrchr($_FILES["file"]['name'],".");
             $name_std = 'stu_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
-            move_uploaded_file($_FILES["file"]["tmp_name"], WWW_UPLOADS."file/".$name_std);
+            move_uploaded_file($_FILES["file"]["tmp_name"], WWW_UPLOADS_."file/".$name_std);
 
             $arr['name'] = $name_std;
-            $arr['path'] = WWW_UPLOADS."file/".$name_std;
+            $arr['path'] = WWW_UPLOADS_."file/".$name_std;
         }
         else{
             $arr['error'] = 'false';
@@ -380,10 +383,10 @@ class Registration extends Controller {
         if( !empty($_FILES["file"]) ){
             $type = strrchr($_FILES["file"]['name'],".");
             $name_std = 'stu_'.date('Y-m-d-H-i-s').'_'.uniqid('', true).$type;
-            move_uploaded_file($_FILES["file"]["tmp_name"], WWW_UPLOADS."file/".$name_std);
+            move_uploaded_file($_FILES["file"]["tmp_name"], WWW_UPLOADS_."file/".$name_std);
 
             $arr['name'] = $name_std;
-            $arr['path'] = WWW_UPLOADS."file/".$name_std;
+            $arr['path'] = WWW_UPLOADS_."file/".$name_std;
         }
         else{
             $arr['error'] = 'false';
@@ -433,6 +436,8 @@ class Registration extends Controller {
 
                         $postUser['username'] = $PSourceID;
                         $postUser['uid'] = $PSourceID;
+                        $postUser['firstname'] = $item['firstname'];
+                        $postUser['lastname'] = $item['lastname'];
                         $postUser['password'] = $this->fn->q('password')->PasswordHash($password);
                         $postUser['permission'] = 'user';
 
@@ -453,12 +458,13 @@ class Registration extends Controller {
             }
 
             $this->model->update($PSourceID, $postData);
-            $arr['url'] = 'http://anresconference2018.org/member';
+            // $arr['url'] = 'http://anresconference2018.org/member';
+            header("location:http://anresconference2018.org/thankyou.php");
         }
         else{
             $arr['error'] = 'Not Found Data !';
+            echo json_encode($arr);
         }
-        echo json_encode($arr);
     }
 
     public function sendmail($id=null, $type=null){

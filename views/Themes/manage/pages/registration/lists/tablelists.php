@@ -30,11 +30,15 @@ if( !empty($this->results['lists']) ){
 
             // '<td class="check-box"><label class="checkbox"><input id="toggle_checkbox" type="checkbox" value="'.$item['id'].'"></label></td>'.
 
-            '<td class="email">'.$item['presentation_type'].'</td>'.
+            // '<td class="email">'.$item['presentation_type'].'</td>'.
+
+            '<td class="date">'.date("d/m/Y", strtotime($item['created'])).'</td>'.
 
             '<td class="name">'.
 
                 '<div class="anchor clearfix">'.
+
+                    '<div class="avatar lfloat no-avatar mrm"><div class="initials"><i class="icon-user"></i></div></div>'.
 
                     '<div class="content"><div class="spacer"></div><div class="massages">'.
 
@@ -49,15 +53,17 @@ if( !empty($this->results['lists']) ){
 
             '<td class="email">'.$item['region'].'</td>'.
 
+            '<td class="email">'.$item['presentation_type'].'</td>'.
+
             '<td class="status">'.$item['payment_status_arr']['name'].'</td>'.
 
-            '<td class="status">'.$upload.'</td>'.
+            // '<td class="status">'.$upload.'</td>'.
 
-            '<td class="status">
-                <label class="checkbox"><input data-plugins="_update" data-options="'.$this->fn->stringify(array('url' => URL. 'registration/setData/'.$item['uid'].'/checkin')).'" type="checkbox" name="checkin" '.(!empty($item['checkin']) ? 'checked="1"' : '').'></label>
-            </td>'.
+            // '<td class="status">
+            //     <label class="checkbox"><input data-plugins="_update" data-options="'.$this->fn->stringify(array('url' => URL. 'registration/setData/'.$item['uid'].'/checkin')).'" type="checkbox" name="checkin" '.(!empty($item['checkin']) ? 'checked="1"' : '').'></label>
+            // </td>'.
 
-            // '<td class="status"></td>'.
+            '<td class="status"><span class="fwb">'.$item['status'].'</span></td>'.
 
             '<td class="actions">'.
                 '<span class="gbtn">
